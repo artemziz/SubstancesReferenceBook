@@ -1,0 +1,14 @@
+.App {
+
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  
+
+}
+.App>*{
+  margin: 1%;
+}
+
+

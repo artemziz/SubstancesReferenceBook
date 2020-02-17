@@ -1,0 +1,13 @@
+@import '../node_modules/react-vis/dist/style.css';
+@import '../node_modules/materialize-css/dist/css/materialize.css';
+@import './components/App/App.css';
+@import './components/SubList/SubList.css';
+@import './components/Sub/Sub.css';
+@import './components/Info/Info.css';
+@import './components/transition.css';
+@import './components/hidden.css';
+@import './components/visible.css';
+@import './components/PropsList/PropsList.css';
+@import './components/Values/Values.css';
+@import './components/Header/Header.css';
+@import './components/AddPanel/AddPanel.css';
