@@ -9,7 +9,7 @@ export default class Sub extends Component{
 
     getProps(){
   
-        this.props.getProps(this.props.Id);
+        this.props.getProps(this.props.id);
     }
     
     render(){

@@ -100,10 +100,13 @@ class App extends Component{
   }
   render(){
     
-      return(   
+      return(  
+        
         <div>
+        
           <Header/>
-            
+          
+         
               <div className="row">
                 <article className="container">
                   <SubList getProps={this.getProps}/>
@@ -114,8 +117,9 @@ class App extends Component{
                 <Info info={this.state.info}/>
               </div>
               <Values/>
-        {/* <AddPanel/> */}
+          
         </div>
+        
         
       )
     

@@ -12,11 +12,14 @@ namespace SubstancesReferenceBook.Controllers
     public class SampleDataController : Controller
     {
         SqlConnection sqlConnection;
+        public string ArtemConnection = "Data Source=DESKTOP-KK85Q69;Initial Catalog=SubstancesReferenceBook;Integrated Security=True";
         public SampleDataController()
         {
-            sqlConnection = new SqlConnection("Data Source=MARIA;" +
-                "Initial Catalog=SubstancesReferenceBook;" +
-                "Integrated Security=True");
+            // sqlConnection = new SqlConnection("Data Source=MARIA;" +
+            //     "Initial Catalog=SubstancesReferenceBook;" +
+            //     "Integrated Security=True");
+            // sqlConnection.Open();
+            sqlConnection = new SqlConnection(ArtemConnection);
             sqlConnection.Open();
         }
 
@@ -24,7 +27,7 @@ namespace SubstancesReferenceBook.Controllers
         public List<Sub> listOfSubstances()
         {
             {
-                ////Выбираем категории материалов
+                ////пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
                 //string queryTable = "SELECT * FROM " + " [dbo].[SubstCategories]";
                 //SqlCommand command = new SqlCommand(queryTable, sqlConnection);
                 //SqlDataReader reader = command.ExecuteReader();
@@ -36,7 +39,7 @@ namespace SubstancesReferenceBook.Controllers
                 //    for (
                 //        int i = 0; i < reader.FieldCount; i++)
                 //    {
-                //        //Данные представляем в виде строки     
+                //        //пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ     
                 //        Categories[Categories.Count - 1][i] = reader[i].ToString();
                 //    }
 
@@ -44,19 +47,19 @@ namespace SubstancesReferenceBook.Controllers
                 //reader.Close();
             }
 
-            //Материалы, добавить к ним категории
+            //пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
             string queryTable = "SELECT * FROM " + " [dbo].[Substances]";
             SqlCommand command = new SqlCommand(queryTable, sqlConnection);
             SqlDataReader reader = command.ExecuteReader();
             List<Sub> data = new List<Sub>();
 
             //int label = 0;
-            //Считываем данные, заполняем массив массивов
+            //пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
             while (reader.Read())
             {
                 data.Add(new Sub()
                 {
-                    //Данные представляем в виде строки     
+                    //пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ     
                     Id = Int32.Parse(reader[0].ToString()),
                     Name = reader[1].ToString(),
                     Descr = reader[2].ToString(),
@@ -65,7 +68,7 @@ namespace SubstancesReferenceBook.Controllers
                 );
 
                 {
-                    //Информация о категориях
+                    //пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
                     //for (int j = 0; j < Categories.Count; j++)
                     //{
                     //    if (Categories[j][0] == reader[3].ToString())
@@ -85,7 +88,7 @@ namespace SubstancesReferenceBook.Controllers
                 //label++;
             }
 
-            //Проверка работы запросов
+            //пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
             reader.Close();
 
             return data;
@@ -94,7 +97,7 @@ namespace SubstancesReferenceBook.Controllers
         [HttpGet("categories")]
         public List<Category> listOfCategories()
         {
-            //Выбираем категории материалов
+            //пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
             string queryTable = "SELECT * FROM " + " [dbo].[SubstCategories]";
             SqlCommand command = new SqlCommand(queryTable, sqlConnection);
             SqlDataReader reader = command.ExecuteReader();
@@ -187,7 +190,7 @@ namespace SubstancesReferenceBook.Controllers
             {
                 data.Add(new StateVariables()
                 {
-                    //Данные представляем в виде строки     
+                    //пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ     
                     Id = Int32.Parse(reader[0].ToString()),
                     Name = reader[1].ToString(),
                     Descr = reader[2].ToString(),
@@ -236,7 +239,7 @@ namespace SubstancesReferenceBook.Controllers
             {
                 data.Add(new ScalarPropValues()
                 {
-                    //Данные представляем в виде строки     
+                    //пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ     
                     Id = Int32.Parse(reader[0].ToString()),
                     PropSubId = Int32.Parse(reader[1].ToString()),
                     Value = Convert.ToDouble(reader[2].ToString()),
@@ -261,7 +264,7 @@ namespace SubstancesReferenceBook.Controllers
             {
                 data.Add(new AssocPropValues()
                 {
-                    //Данные представляем в виде строки     
+                    //пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ     
                     Id = Int32.Parse(reader[0].ToString()),
                     PropSubId = Int32.Parse(reader[1].ToString()),
                     Key = reader[2].ToString(),
@@ -401,10 +404,10 @@ namespace SubstancesReferenceBook.Controllers
             return data;
         }
 
-        //Добавить обновление и удаление данных
-        //Мб это добавить как функции классов?, чтоб не прописывать каждое удаление
-        //я почитаю конешн
-        //но мем в том, что на некоторые связи не настроена ни проверка, ни каскадное удаление/обновление
+        //пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+        //пїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ?, пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+        //пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+        //пїЅпїЅ пїЅпїЅпїЅ пїЅ пїЅпїЅпїЅ, пїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ/пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 
 
     }

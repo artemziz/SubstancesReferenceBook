@@ -4,25 +4,29 @@ import Sub from '../Sub/Sub';
 export default class SubList extends Component{
     constructor(props){
         super(props);
-        let subs = [{
-            "Id":"0",
-            "Name":"NameOfSub",
-            "Descr":"DescrSub",
-        },
-        {
-            "Id":"1",
-            "Name":"NameOfSub1",
-            "Descr":"DescrSub1",
-        }]
+        
         this.state = {
-          subs:subs.map((sub)=>{
-            return {
-              Id:sub['Id'],
-              Name:sub['Name'],
-            } 
-            }),         
+          subs:[],      
         }
         this.getProps = this.getProps.bind(this);
+    }
+    componentDidMount(){
+        fetch('https://localhost:5001/substances')
+        .then(data => {          
+            
+            return data.json(); 
+
+        }).then(subs => {     
+                    
+            this.setState({
+                subs:subs
+            })
+
+        }).catch(err => {
+
+            console.log(err);  
+
+        })
     }
     getProps(propId){
         this.props.getProps(propId);
@@ -37,7 +41,7 @@ export default class SubList extends Component{
            
                 {this.state.subs.map(sub=>{
                     
-                    return  <Sub Id={sub.Id} getProps={this.getProps} key={sub.Id} name={sub.Name}/>
+                    return  <Sub id={sub.id} categoryID={sub.categoryID} descr={sub.descr} getProps={this.getProps} key={sub.id} name={sub.name}/>
                 })}
             
             

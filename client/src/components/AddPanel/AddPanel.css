@@ -1,8 +1,19 @@
-.AddPanel{
-    position: fixed;
-    left: 0;
-    top: 0;
+.AddPanel-form{
+    position: relative;
+    margin: auto;
+    border: 1px solid black;
     width: 100%;
     height: 100%;
     z-index: 999;
+    background-color: white;
+    padding: 10%;
+}
+.AddPanel{
+    position: fixed;
+    left:0;
+    top:0;
+    background-color: blue;
+    width:100%;
+    height: 100%;
+    border: 1px solid black;
 }
