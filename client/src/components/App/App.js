@@ -149,18 +149,18 @@ class App extends Component{
         <div>
         
           <Header/>
-          
+          {/* <AddPanel/> */}
          
-              <div className="row">
-                <article className="container">
+          <div className="row">
+            <article className="container">
                   <SubList subs={this.state.subs} getProps={this.getProps}/>
                   <PropsList getValues={this.getValues} subProps={this.state.subProps}/>
                   
-                </article>
+            </article>
           
-                <Info info={this.state.info}/>
-              </div>
-              <Values/>
+            <Info info={this.state.info}/>
+          </div>
+          <Values/>
           
         </div>
         

@@ -17,7 +17,7 @@ export default class SubList extends Component{
         return(
             <section className="col s3 SubList" >
              <ul className="collection with-header">
-            <li className="collection-header"><h4 >Выберите вещество</h4></li>
+            <li className="collection-header"><h4 >Вещества</h4></li>
            
            
                 {this.props.subs.map(sub=>{
