@@ -5,31 +5,12 @@ export default class SubList extends Component{
     constructor(props){
         super(props);
         
-        this.state = {
-          subs:[],      
-        }
+        
         this.getProps = this.getProps.bind(this);
     }
-    componentDidMount(){
-        fetch('https://localhost:5001/substances')
-        .then(data => {          
-            
-            return data.json(); 
-
-        }).then(subs => {     
-                    
-            this.setState({
-                subs:subs
-            })
-
-        }).catch(err => {
-
-            console.log(err);  
-
-        })
-    }
-    getProps(propId){
-        this.props.getProps(propId);
+    
+    getProps(subId){
+        this.props.getProps(subId);
     }
     
     render(){
@@ -39,7 +20,7 @@ export default class SubList extends Component{
             <li className="collection-header"><h4 >Выберите вещество</h4></li>
            
            
-                {this.state.subs.map(sub=>{
+                {this.props.subs.map(sub=>{
                     
                     return  <Sub id={sub.id} categoryID={sub.categoryID} descr={sub.descr} getProps={this.getProps} key={sub.id} name={sub.name}/>
                 })}

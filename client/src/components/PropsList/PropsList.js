@@ -22,7 +22,13 @@ export default class PropsList extends Component{
            
            
             {this.props.subProps.map(prop=>{
-                    return <Prop getValues={this.getValues} key={prop.Id} name={prop.Name} />
+                    return <Prop
+                    getValues={this.getValues}
+                    key={prop.id}
+                    descr={prop.descr} 
+                    name={prop.name}
+                    propUnits = {prop.propUnits}
+                    type = {prop.type} />
                 })}
             
             

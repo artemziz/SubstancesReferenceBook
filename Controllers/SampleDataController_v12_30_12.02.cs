@@ -147,6 +147,40 @@ namespace SubstancesReferenceBook.Controllers
             return data;
         }
 
+        [HttpGet("getProps")]
+        public List<Props> listOfPropsById(int id){
+            string queryTable = "SELECT PropID FROM " + " [dbo].[PropSubstLinks]" + String.Format("WHERE substId={0}",id);
+            SqlCommand command = new SqlCommand(queryTable, sqlConnection);
+            SqlDataReader reader = command.ExecuteReader();
+            List<int> indexes = new List<int>();
+            List<Props> data = new List<Props>();
+            while (reader.Read())
+            {
+                indexes.Add(Int32.Parse(reader[0].ToString()));         
+            
+            }
+            reader.Close();
+            foreach(int index in indexes){
+                queryTable = "SELECT * FROM " + " [dbo].[Properties]" + String.Format("WHERE ID={0}",index);
+                command = new SqlCommand(queryTable, sqlConnection);
+                reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    data.Add(new Props(){
+                        Id = Int32.Parse(reader[0].ToString()),
+                        Name = reader[1].ToString(),
+                        Descr = reader[2].ToString(),
+                        PropUnits = reader[3].ToString(),
+                        Type = Int32.Parse(reader[4].ToString()),
+
+                    });
+                }
+                reader.Close();
+            }
+            return data;
+
+        }
+
         [HttpGet("props")]
         public List<Props> listProps()
         {
