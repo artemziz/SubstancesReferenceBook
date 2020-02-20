@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 
 /*
- * ����� ��-�� ���� ����� ���� ������������ � ���������� ����������, � �� � ��������
+ * NUZHEN Aj-PI chtob mozhno bylo podklyuchat'sya k servernomu prilozheniyu, a ne k sserveru
  * */
 namespace SubstancesReferenceBook.Controllers
 {
@@ -17,22 +17,21 @@ namespace SubstancesReferenceBook.Controllers
         public string ArtemConnection = "Data Source=DESKTOP-KK85Q69;Initial Catalog=SubstancesReferenceBook;Integrated Security=True";
         public SampleDataController()
         {
-            
-            // sqlConnection = new SqlConnection("Data Source=MARIA;" +
-            //     "Initial Catalog=SubstancesReferenceBook;" +
-            //     "Integrated Security=True");
-            sqlConnection = new SqlConnection(ArtemConnection);
+
+            sqlConnection = new SqlConnection("Data Source=MARIA;" +
+                "Initial Catalog=SubstancesReferenceBook;" +
+                "Integrated Security=True");
+            //sqlConnection = new SqlConnection(ArtemConnection);
             sqlConnection.Open();
         }
 
 
-    //������ ������ 
+        //POLNYJ SPISOK
 
         //Spisok materialov
         [HttpGet("substances")]
         public List<Sub> listOfSubstances()
-        {          
-            //���������, �������� � ��� ���������
+        { 
             string queryTable = "SELECT * FROM " + " [dbo].[Substances]";
             SqlCommand command = new SqlCommand(queryTable, sqlConnection);
             SqlDataReader reader = command.ExecuteReader();
@@ -41,8 +40,7 @@ namespace SubstancesReferenceBook.Controllers
             while (reader.Read())
             {
                 data.Add(new Sub()
-                {
-                    //������ ������������ � ���� ������     
+                {    
                     Id = Int32.Parse(reader[0].ToString()),
                     Name = reader[1].ToString(),
                     Descr = reader[2].ToString(),
@@ -59,7 +57,6 @@ namespace SubstancesReferenceBook.Controllers
         [HttpGet("categories")]
         public List<Category> listOfCategories()
         {
-            //�������� ��������� ����������
             string queryTable = "SELECT * FROM " + " [dbo].[SubstCategories]";
             SqlCommand command = new SqlCommand(queryTable, sqlConnection);
             SqlDataReader reader = command.ExecuteReader();
@@ -107,7 +104,7 @@ namespace SubstancesReferenceBook.Controllers
         }
 
         //Vse istochniki
-        //RETURN spisok masiivov(string), tam gde CALC - pishem ������
+        //RETURN spisok masiivov(string), tam gde CALC - pishem RASCHET
         [HttpGet ("AllSources")]
         public List<string[]> ListOfAllSources()
         {
@@ -147,7 +144,7 @@ namespace SubstancesReferenceBook.Controllers
             {
                 data.Add(new string[3]);
                 data[data.Count() - 1][0] = reader[0].ToString();
-                data[data.Count() - 1][1] = "������";
+                data[data.Count() - 1][1] = reader[1].ToString();
                 data[data.Count() - 1][2] = reader[2].ToString();
             }
             reader.Close();
@@ -160,7 +157,7 @@ namespace SubstancesReferenceBook.Controllers
             {
                 data.Add(new string[3]);
                 data[data.Count() - 1][0] = reader[0].ToString();
-                data[data.Count() - 1][1] = "������";
+                data[data.Count() - 1][1] = reader[1].ToString();
                 data[data.Count() - 1][2] = reader[2].ToString();
             }
             reader.Close();
@@ -254,7 +251,7 @@ namespace SubstancesReferenceBook.Controllers
 
 
 
-    //�� ID ��������� (SUBSTANCE)
+    //PO ID MATERIALA (SUBSTANCE)
         //Svyazy svoistv dannogo materiala
         [HttpGet("properties")]
         public List<PropSubstLinks> listOfOneSub(int subId)
@@ -283,12 +280,12 @@ namespace SubstancesReferenceBook.Controllers
             reader.Close();
             return data;
         }
-        
 
 
-    //�� ID ����� �������� � ��������� (����� ��� �� listOfOneSub)
-            //���� �� ������� ������ ������� � ��� �����, � �� � �������, ������ ��� ������ ��������
-            //�� ��� ����� 
+
+    //PO ID svyazi SVOJSTVA i MATERIALA (berem ego iz listOfOneSub)
+            //NADO by SDELAT' EDINUYU FUNKCIYU I UZHE ZDES', a ne u klienta, RESHAT' GDE ISKTA' ZNACHENIYA
+            //HZ kak mozhno
         //Massiv
         [HttpGet("Array")]
         public List<Array1DPropValues> listOf1DArray(int propSubID)
@@ -327,8 +324,7 @@ namespace SubstancesReferenceBook.Controllers
             while (reader.Read())
             {
                 data.Add(new ScalarPropValues()
-                {
-                    //������ ������������ � ���� ������     
+                {   
                     Id = Int32.Parse(reader[0].ToString()),
                     PropSubId = Int32.Parse(reader[1].ToString()),
                     Value = Convert.ToDouble(reader[2].ToString()),
@@ -352,8 +348,7 @@ namespace SubstancesReferenceBook.Controllers
             while (reader.Read())
             {
                 data.Add(new AssocPropValues()
-                {
-                    //������ ������������ � ���� ������     
+                { 
                     Id = Int32.Parse(reader[0].ToString()),
                     PropSubId = Int32.Parse(reader[1].ToString()),
                     Key = reader[2].ToString(),
@@ -368,9 +363,6 @@ namespace SubstancesReferenceBook.Controllers
         }
     
 
-
-
-        //����� ��� ���� ����
         //Svayzy znacheniy i istochnikov
         [HttpGet("SourceLinks")]
         public List<PropValueSourceLinks> listOfSource(int propValueID, int type)
@@ -481,7 +473,7 @@ namespace SubstancesReferenceBook.Controllers
        
 
 
-    //�������� ������
+    //UDALENIE ZAPISI
         [HttpGet("DelProp")]
         public List<PropSubstLinks> Delete(int Id, int subID)
         {    
@@ -504,28 +496,28 @@ namespace SubstancesReferenceBook.Controllers
         {
             //int IdSources = 1;
             //int IdTypeSource = 1;
-            string succes = "������ ��������";
+            string succes = "������ ��������"; //Oshibka udaleniya
             //if (DelFlag == 0)
             //{
             if (IdTypeSource == 1)
             {
                 Source1(IdSources);
-                succes = "�������� ������ ������";
+                succes = "�������� ������ ������"; //Istochnik uspesho udalen
             }
             if (IdTypeSource == 2)
             {
                 Source2(IdSources);
-                succes = "�������� ������ ������";
+                succes = "�������� ������ ������"; //Istochnik uspesho udalen
             }
             if (IdTypeSource == 3)
             {
                 Source3(IdSources);
-                succes = "�������� ������ ������";
+                succes = "�������� ������ ������"; //Istochnik uspesho udalen
             }
             if (IdTypeSource == 4)
             { 
                 Source4(IdSources);
-                succes = "�������� ������ ������";
+                succes = "�������� ������ ������"; //Istochnik uspesho udalen
             }
             //}
             return succes;
@@ -551,17 +543,16 @@ namespace SubstancesReferenceBook.Controllers
                 string queryTable = "DELETE " + tableName + " WHERE ID =" + valueId;
                 SqlCommand command = new SqlCommand(queryTable, sqlConnection);
                 command.ExecuteNonQuery();
-                return "�������� ������ �������";
+                return "�������� ������ �������"; //Znachenie uspesho udaleno
             }
-            return "������ ��������";
+            return "������ ��������"; //Oshibka udaleniya
         }
 
 
-    //���������� ������
+    //OBNOVLENIE ZAPISI
         [HttpGet("UpdProp")]
         public List<PropSubstLinks> UpdProp(int Id, string nameUpd, string descrUpd, string propUnitsUpd, int typeUpd, int subID)
         {
-            /*�� ���� �� ���� ������ ��� ����������: ID, � ��� ���������*/
             string queryTable = "UPDATE [dbo].[Properties] SET Name = '" + nameUpd + "', Descr = '" + descrUpd + "', PropUnits = '" + propUnitsUpd + "', ValueType = " + typeUpd + " WHERE ID =" + Id;
 
             SqlCommand command1 = new SqlCommand(queryTable, sqlConnection);
@@ -571,20 +562,20 @@ namespace SubstancesReferenceBook.Controllers
         [HttpGet()]
         public void UpdSub()
         {
-            dfdfgd
+           
         }
         [HttpGet()]
         public void UpdSource()
         {
-            xdgdf
+            
         }
         [HttpGet()]
         public void UpdValue()
         {
-            dfgdffg
+            
         }
 
-        //���������� ������
+    //DOBAVLENIE ZAPISI
         [HttpGet("AddProp")]
         public List<PropSubstLinks> AddProp(string namePropAdd, string htmlName, string propUnitsPropAdd, int typePropAdd, int subID, string descrPropAdd = "")
         {
@@ -592,12 +583,7 @@ namespace SubstancesReferenceBook.Controllers
             //string descrPropAdd = "Descr New Prop";
             //string propUnitsPropAdd = "Kto ero znaet";
             //int typePropAdd = 2;
-            //SqlConnection sqlConnection1 = new SqlConnection("Data Source=MARIA;" +
-            //    "Initial Catalog=SubstancesReferenceBook;" +
-            //    "Integrated Security=True");
-            //sqlConnection1.Open();
 
-            /*�� ���� �� ���� ������ ��� ����������: ID, � ��� ���������*/
             string queryTablel = "INSERT INTO [dbo].[Properties] (Name, Descr, PropUnits, ValueType, HtmlName) VALUES ('" + namePropAdd + "', '" + descrPropAdd + "', '" + propUnitsPropAdd + "', " + typePropAdd + ", '" + htmlName + "')";
 
             SqlCommand command1 = new SqlCommand(queryTablel, sqlConnection);
@@ -630,7 +616,6 @@ namespace SubstancesReferenceBook.Controllers
         //Infa o categorii materiala
         private Category catSub(int catID)
         {
-            //�������� ��������� ����������
             string queryTable = "SELECT * FROM " + " [dbo].[SubstCategories] WHERE ID = " + catID;
             SqlCommand command = new SqlCommand(queryTable, sqlConnection);
             SqlDataReader reader = command.ExecuteReader();
@@ -672,7 +657,6 @@ namespace SubstancesReferenceBook.Controllers
             SqlDataReader reader = command.ExecuteReader();
             StateVariables data = new StateVariables()
             {
-                //������ ������������ � ���� ������     
                 Id = Int32.Parse(reader[0].ToString()),
                 Name = reader[1].ToString(),
                 Descr = reader[2].ToString(),
@@ -711,12 +695,13 @@ namespace SubstancesReferenceBook.Controllers
 
 
 
-        /*
- * ��� ��� �����
- * ���������� ��� ������� ��� ����� ���� ������� �������� � �������, �������� ���
- * �������� ������ ��� � ������ ��� �����, ���������, ��������
- * �������� ������ �������� ���������� �� (���� ������� ����� ������ - ����� � �������� � , ������� ������ - ���������, ������� ��������� - ������� ����� � �����������
+/*
+ * CHto eshche nuzhno
+ * perepisat' vse zaprosy tak chtoby bylo minimum dejstvij u klienta, maksimum tut
+ * napisat' apdejt del i dobavl dlya mater, kategorij, znachenij
+ * izmenit' klassy soglasno izmenennoj bd (plyus tablica 'tipy dannyh - svyaz' s svojstva i , stolbec Udalen - istochniki, stolbec TipDannyh - tablica svyazi s istochnikami
  * 
  */
+ 
     }
 }
