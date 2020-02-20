@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 
 /*
- * НУЖЕН Ай-ПИ чтоб можно было подключаться к серверному приложению, а не к ссерверу
+ * пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ-пїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅ пїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
  * */
 namespace SubstancesReferenceBook.Controllers
 {
@@ -14,22 +14,25 @@ namespace SubstancesReferenceBook.Controllers
     public class SampleDataController : Controller
     {  
         SqlConnection sqlConnection;
+        public string ArtemConnection = "Data Source=DESKTOP-KK85Q69;Initial Catalog=SubstancesReferenceBook;Integrated Security=True";
         public SampleDataController()
         {
-            sqlConnection = new SqlConnection("Data Source=MARIA;" +
-                "Initial Catalog=SubstancesReferenceBook;" +
-                "Integrated Security=True");
+            
+            // sqlConnection = new SqlConnection("Data Source=MARIA;" +
+            //     "Initial Catalog=SubstancesReferenceBook;" +
+            //     "Integrated Security=True");
+            sqlConnection = new SqlConnection(ArtemConnection);
             sqlConnection.Open();
         }
 
 
-    //ПОЛНЫЙ СПИСОК 
+    //пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ 
 
         //Spisok materialov
         [HttpGet("substances")]
         public List<Sub> listOfSubstances()
         {          
-            //Материалы, добавить к ним категории
+            //пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
             string queryTable = "SELECT * FROM " + " [dbo].[Substances]";
             SqlCommand command = new SqlCommand(queryTable, sqlConnection);
             SqlDataReader reader = command.ExecuteReader();
@@ -39,7 +42,7 @@ namespace SubstancesReferenceBook.Controllers
             {
                 data.Add(new Sub()
                 {
-                    //Данные представляем в виде строки     
+                    //пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ     
                     Id = Int32.Parse(reader[0].ToString()),
                     Name = reader[1].ToString(),
                     Descr = reader[2].ToString(),
@@ -56,7 +59,7 @@ namespace SubstancesReferenceBook.Controllers
         [HttpGet("categories")]
         public List<Category> listOfCategories()
         {
-            //Выбираем категории материалов
+            //пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
             string queryTable = "SELECT * FROM " + " [dbo].[SubstCategories]";
             SqlCommand command = new SqlCommand(queryTable, sqlConnection);
             SqlDataReader reader = command.ExecuteReader();
@@ -104,7 +107,7 @@ namespace SubstancesReferenceBook.Controllers
         }
 
         //Vse istochniki
-        //RETURN spisok masiivov(string), tam gde CALC - pishem РАСЧЕТ
+        //RETURN spisok masiivov(string), tam gde CALC - pishem пїЅпїЅпїЅпїЅпїЅпїЅ
         [HttpGet ("AllSources")]
         public List<string[]> ListOfAllSources()
         {
@@ -131,7 +134,7 @@ namespace SubstancesReferenceBook.Controllers
             {
                 data.Add(new string[3]);
                 data[data.Count() - 1][0] = reader[0].ToString();
-                data[data.Count() - 1][1] = "РАСЧЕТ";
+                data[data.Count() - 1][1] = "пїЅпїЅпїЅпїЅпїЅпїЅ";
                 data[data.Count() - 1][2] = reader[2].ToString();
             }
             reader.Close();
@@ -144,7 +147,7 @@ namespace SubstancesReferenceBook.Controllers
             {
                 data.Add(new string[3]);
                 data[data.Count() - 1][0] = reader[0].ToString();
-                data[data.Count() - 1][1] = "РАСЧЕТ";
+                data[data.Count() - 1][1] = "пїЅпїЅпїЅпїЅпїЅпїЅ";
                 data[data.Count() - 1][2] = reader[2].ToString();
             }
             reader.Close();
@@ -157,7 +160,7 @@ namespace SubstancesReferenceBook.Controllers
             {
                 data.Add(new string[3]);
                 data[data.Count() - 1][0] = reader[0].ToString();
-                data[data.Count() - 1][1] = "РАСЧЕТ";
+                data[data.Count() - 1][1] = "пїЅпїЅпїЅпїЅпїЅпїЅ";
                 data[data.Count() - 1][2] = reader[2].ToString();
             }
             reader.Close();
@@ -251,7 +254,7 @@ namespace SubstancesReferenceBook.Controllers
 
 
 
-    //ПО ID МАТЕРИАЛА (SUBSTANCE)
+    //пїЅпїЅ ID пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ (SUBSTANCE)
         //Svyazy svoistv dannogo materiala
         [HttpGet("properties")]
         public List<PropSubstLinks> listOfOneSub(int subId)
@@ -283,9 +286,9 @@ namespace SubstancesReferenceBook.Controllers
         
 
 
-    //ПО ID связи СВОЙСТВА и МАТЕРИАЛА (берем его из listOfOneSub)
-            //НАДО бы СДЕЛАТЬ ЕДИНУЮ ФУНКЦИЮ И УЖЕ ЗДЕСЬ, а не у клиента, РЕШАТЬ ГДЕ ИСКТАЬ ЗНАЧЕНИЯ
-            //ХЗ как можно 
+    //пїЅпїЅ ID пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅ listOfOneSub)
+            //пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ, пїЅ пїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+            //пїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ 
         //Massiv
         [HttpGet("Array")]
         public List<Array1DPropValues> listOf1DArray(int propSubID)
@@ -325,7 +328,7 @@ namespace SubstancesReferenceBook.Controllers
             {
                 data.Add(new ScalarPropValues()
                 {
-                    //Данные представляем в виде строки     
+                    //пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ     
                     Id = Int32.Parse(reader[0].ToString()),
                     PropSubId = Int32.Parse(reader[1].ToString()),
                     Value = Convert.ToDouble(reader[2].ToString()),
@@ -350,7 +353,7 @@ namespace SubstancesReferenceBook.Controllers
             {
                 data.Add(new AssocPropValues()
                 {
-                    //Данные представляем в виде строки     
+                    //пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ     
                     Id = Int32.Parse(reader[0].ToString()),
                     PropSubId = Int32.Parse(reader[1].ToString()),
                     Key = reader[2].ToString(),
@@ -367,7 +370,7 @@ namespace SubstancesReferenceBook.Controllers
 
 
 
-        //ЗОЧЕМ ЭТО тебе ТЕМА
+        //пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
         //Svayzy znacheniy i istochnikov
         [HttpGet("SourceLinks")]
         public List<PropValueSourceLinks> listOfSource(int propValueID, int type)
@@ -478,7 +481,7 @@ namespace SubstancesReferenceBook.Controllers
        
 
 
-    //УДАЛЕНИЕ ЗАПИСИ
+    //пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
         [HttpGet("DelProp")]
         public List<PropSubstLinks> Delete(int Id, int subID)
         {    
@@ -501,28 +504,28 @@ namespace SubstancesReferenceBook.Controllers
         {
             //int IdSources = 1;
             //int IdTypeSource = 1;
-            string succes = "Ошибка удаления";
+            string succes = "пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
             //if (DelFlag == 0)
             //{
             if (IdTypeSource == 1)
             {
                 Source1(IdSources);
-                succes = "Источник успешо удален";
+                succes = "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ";
             }
             if (IdTypeSource == 2)
             {
                 Source2(IdSources);
-                succes = "Источник успешо удален";
+                succes = "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ";
             }
             if (IdTypeSource == 3)
             {
                 Source3(IdSources);
-                succes = "Источник успешо удален";
+                succes = "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ";
             }
             if (IdTypeSource == 4)
             { 
                 Source4(IdSources);
-                succes = "Источник успешо удален";
+                succes = "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ";
             }
             //}
             return succes;
@@ -548,17 +551,17 @@ namespace SubstancesReferenceBook.Controllers
                 string queryTable = "DELETE " + tableName + " WHERE ID =" + valueId;
                 SqlCommand command = new SqlCommand(queryTable, sqlConnection);
                 command.ExecuteNonQuery();
-                return "Значение успешо удалено";
+                return "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
             }
-            return "Ошибка удаления";
+            return "пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
         }
 
 
-    //ОБНОВЛЕНИЕ ЗАПИСИ
+    //пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
         [HttpGet("UpdProp")]
         public List<PropSubstLinks> UpdProp(int Id, string nameUpd, string descrUpd, string propUnitsUpd, int typeUpd, int subID)
         {
-            /*По идее на вход данные для обновления: ID, и что обновлять*/
+            /*пїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ: ID, пїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ*/
             string queryTable = "UPDATE [dbo].[Properties] SET Name = '" + nameUpd + "', Descr = '" + descrUpd + "', PropUnits = '" + propUnitsUpd + "', ValueType = " + typeUpd + " WHERE ID =" + Id;
 
             SqlCommand command1 = new SqlCommand(queryTable, sqlConnection);
@@ -581,7 +584,7 @@ namespace SubstancesReferenceBook.Controllers
 
         }
 
-        //ДОБАВЛЕНИЕ ЗАПИСИ
+        //пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
         [HttpGet("AddProp")]
         public List<PropSubstLinks> AddProp(string namePropAdd, string htmlName, string propUnitsPropAdd, int typePropAdd, int subID, string descrPropAdd = "")
         {
@@ -594,7 +597,7 @@ namespace SubstancesReferenceBook.Controllers
             //    "Integrated Security=True");
             //sqlConnection1.Open();
 
-            /*По идее на вход данные для обновления: ID, и что обновлять*/
+            /*пїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ: ID, пїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ*/
             string queryTablel = "INSERT INTO [dbo].[Properties] (Name, Descr, PropUnits, ValueType, HtmlName) VALUES ('" + namePropAdd + "', '" + descrPropAdd + "', '" + propUnitsPropAdd + "', " + typePropAdd + ", '" + htmlName + "')";
 
             SqlCommand command1 = new SqlCommand(queryTablel, sqlConnection);
@@ -627,7 +630,7 @@ namespace SubstancesReferenceBook.Controllers
         //Infa o categorii materiala
         private Category catSub(int catID)
         {
-            //Выбираем категории материалов
+            //пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
             string queryTable = "SELECT * FROM " + " [dbo].[SubstCategories] WHERE ID = " + catID;
             SqlCommand command = new SqlCommand(queryTable, sqlConnection);
             SqlDataReader reader = command.ExecuteReader();
@@ -669,7 +672,7 @@ namespace SubstancesReferenceBook.Controllers
             SqlDataReader reader = command.ExecuteReader();
             StateVariables data = new StateVariables()
             {
-                //Данные представляем в виде строки     
+                //пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ     
                 Id = Int32.Parse(reader[0].ToString()),
                 Name = reader[1].ToString(),
                 Descr = reader[2].ToString(),
@@ -709,10 +712,10 @@ namespace SubstancesReferenceBook.Controllers
 
 
         /*
- * Что еще нужно
- * переписать все запросы так чтобы было минимум действий у клиента, максимум тут
- * написать апдейт дел и добавл для матер, категорий, значений
- * изменить классы согласно измененной бд (плюс таблица ьтипы данных - связь с свойства и , столбец Удален - источники, столбец ТипДанных - таблица связи с источниками
+ * пїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
+ * пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ
+ * пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+ * пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ (пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ - пїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ , пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ - пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ - пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
  * 
  */
     }
