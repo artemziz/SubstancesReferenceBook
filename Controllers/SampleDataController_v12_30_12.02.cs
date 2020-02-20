@@ -568,17 +568,17 @@ namespace SubstancesReferenceBook.Controllers
         [HttpGet()]
         public void UpdSub()
         {
-            
+            dfdfgd
         }
         [HttpGet()]
         public void UpdSource()
         {
-
+            xdgdf
         }
         [HttpGet()]
         public void UpdValue()
         {
-
+            dfgdffg
         }
 
         //днаюбкемхе гюохях
