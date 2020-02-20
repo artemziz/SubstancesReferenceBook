@@ -10,7 +10,7 @@ namespace SubstancesReferenceBook
         /// public int PropSubId;
         /// public DateTime VersionDate;
         /// </summary>
-        public int StateVarId;
+        public StateVariables StateVar;
         public List<double> Values = new List<double>(); 
     }
      

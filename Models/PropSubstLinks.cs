@@ -8,7 +8,7 @@ namespace SubstancesReferenceBook
     public class PropSubstLinks
     {
         public int Id;
-        public int PropId;
+        public Props Prop;
         public int SubstId;
         public double MinValue;
         public double MaxValue;

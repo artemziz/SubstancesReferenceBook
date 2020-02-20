@@ -7,10 +7,7 @@ namespace SubstancesReferenceBook
         public int Id;
         public string Name;
         public string Descr;
-    
-        //public string[] PropsID;
-        public string CategoryID;
-        //public Category Category;
+        public Category Category;
     }
     
     
