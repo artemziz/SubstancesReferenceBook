@@ -26,7 +26,7 @@ namespace SubstancesReferenceBook.Controllers
         }
 
 
-        //POLNYJ SPISOK
+    //POLNYJ SPISOK
 
         //Spisok materialov
         [HttpGet("substances")]
@@ -108,60 +108,15 @@ namespace SubstancesReferenceBook.Controllers
         [HttpGet ("AllSources")]
         public List<string[]> ListOfAllSources()
         {
-            List<string[]> data = new List<string[]>(); 
-
-            /*REF*/
-            string queryTable = "SELECT * FROM " + " [dbo].[RefSources]";
-            SqlCommand command = new SqlCommand(queryTable, sqlConnection);
-            SqlDataReader reader = command.ExecuteReader();
-            while (reader.Read())
-            {
-                data.Add(new string[3]);
-                data[data.Count() - 1][0] = reader[0].ToString();
-                data[data.Count() - 1][1] = reader[1].ToString();
-                data[data.Count() - 1][2] = reader[2].ToString();
-            }
-            reader.Close();
-
-            /*Calc*/
-            queryTable = "SELECT * FROM " + " [dbo].[CalcfSources]";
-            command = new SqlCommand(queryTable, sqlConnection);
-            reader = command.ExecuteReader();
-            while (reader.Read())
-            {
-                data.Add(new string[3]);
-                data[data.Count() - 1][0] = reader[0].ToString();
-                data[data.Count() - 1][1] = "������";
-                data[data.Count() - 1][2] = reader[2].ToString();
-            }
-            reader.Close();
-
-            /*Web*/
-            queryTable = "SELECT * FROM " + " [dbo].[WebfSources]";
-            command = new SqlCommand(queryTable, sqlConnection);
-            reader = command.ExecuteReader();
-            while (reader.Read())
-            {
-                data.Add(new string[3]);
-                data[data.Count() - 1][0] = reader[0].ToString();
-                data[data.Count() - 1][1] = reader[1].ToString();
-                data[data.Count() - 1][2] = reader[2].ToString();
-            }
-            reader.Close();
-
-            /*Measure*/
-            queryTable = "SELECT * FROM " + " [dbo].[MeasurefSources]";
-            command = new SqlCommand(queryTable, sqlConnection);
-            reader = command.ExecuteReader();
-            while (reader.Read())
-            {
-                data.Add(new string[3]);
-                data[data.Count() - 1][0] = reader[0].ToString();
-                data[data.Count() - 1][1] = reader[1].ToString();
-                data[data.Count() - 1][2] = reader[2].ToString();
-            }
-            reader.Close();
-
+            List<string[]> data = new List<string[]>();
+            List<string[]> s1 = RefSourceStr();
+            List<string[]> s2 = WebSourceStr();
+            List<string[]> s3 = CalcSourceStr();
+            List<string[]> s4 = MeasureSourceStr();
+            data.AddRange(s1);
+            data.AddRange(s2);
+            data.AddRange(s3);
+            data.AddRange(s4);
             return data;
         }
 
@@ -560,9 +515,12 @@ namespace SubstancesReferenceBook.Controllers
             return listOfOneSub(subID);
         }
         [HttpGet()]
-        public void UpdSub()
+        public void UpdSub(int Id, string nameUpd, string descrUpd, int categoryId, string htmlName)
         {
-           
+            string queryTable = "UPDATE [dbo].[Properties] SET Name = '" + nameUpd + "', Descr = '" + descrUpd + "', HtmlName = '" 
+                + htmlName + "', CategoryID = " + categoryId + " WHERE ID =" + Id;
+            SqlCommand command1 = new SqlCommand(queryTable, sqlConnection);
+            command1.ExecuteNonQuery();
         }
         [HttpGet()]
         public void UpdSource()
@@ -692,9 +650,75 @@ namespace SubstancesReferenceBook.Controllers
             SqlCommand command1 = new SqlCommand(queryTable, sqlConnection);
             command1.ExecuteNonQuery();
         }
-
-        //
-
+        //Soursec dlya obsego spiska
+        private List<string[]> RefSourceStr()
+        {
+            List<string[]> data = new List<string[]>();
+            /*REF*/
+            string queryTable = "SELECT * FROM " + " [dbo].[RefSources]";
+            SqlCommand command = new SqlCommand(queryTable, sqlConnection);
+            SqlDataReader reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                data.Add(new string[3]);
+                data[data.Count() - 1][0] = reader[0].ToString();
+                data[data.Count() - 1][1] = reader[1].ToString();
+                data[data.Count() - 1][2] = reader[2].ToString();
+            }
+            reader.Close();
+            return data;
+        }
+        private List<string[]> CalcSourceStr()
+        {
+            List<string[]> data = new List<string[]>();
+            /*Calc*/
+            string queryTable = "SELECT * FROM " + " [dbo].[CalcSources]";
+            SqlCommand command = new SqlCommand(queryTable, sqlConnection);
+            SqlDataReader reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                data.Add(new string[3]);
+                data[data.Count() - 1][0] = reader[0].ToString();
+                data[data.Count() - 1][1] = "������";
+                data[data.Count() - 1][2] = reader[2].ToString();
+            }
+            reader.Close();
+            return data;
+        }
+        private List<string[]> WebSourceStr()
+        {
+            List<string[]> data = new List<string[]>();
+            /*Web*/
+            string queryTable = "SELECT * FROM " + " [dbo].[WebSources]";
+            SqlCommand command = new SqlCommand(queryTable, sqlConnection);
+            SqlDataReader reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                data.Add(new string[3]);
+                data[data.Count() - 1][0] = reader[0].ToString();
+                data[data.Count() - 1][1] = reader[1].ToString();
+                data[data.Count() - 1][2] = reader[2].ToString();
+            }
+            reader.Close();
+            return data;
+        }
+        private List<string[]> MeasureSourceStr()
+        {
+            List<string[]> data = new List<string[]>();
+            /*Measure*/
+            string queryTable = "SELECT * FROM " + " [dbo].[MeasureSources]";
+            SqlCommand command = new SqlCommand(queryTable, sqlConnection);
+            SqlDataReader reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                data.Add(new string[3]);
+                data[data.Count() - 1][0] = reader[0].ToString();
+                data[data.Count() - 1][1] = reader[1].ToString();
+                data[data.Count() - 1][2] = reader[2].ToString();
+            }
+            reader.Close();
+            return data;
+        }
 
 
 /*
