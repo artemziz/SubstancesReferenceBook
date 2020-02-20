@@ -13,16 +13,20 @@ namespace SubstancesReferenceBook.Controllers
     //[Route("[controller]")]
     public class SampleDataController : Controller
     {  
-        SqlConnection sqlConnection;
-        public string ArtemConnection = "Data Source=DESKTOP-KK85Q69;Initial Catalog=SubstancesReferenceBook;Integrated Security=True";
-        public SampleDataController()
+        private SqlConnection AddNewSqlConn()
         {
-            //SqlConnection sqlConnection;
+            SqlConnection sqlConnection;
             sqlConnection = new SqlConnection("Data Source=MARIA;" +
                 "Initial Catalog=SubstancesReferenceBook;" +
                 "Integrated Security=True");
-            //sqlConnection = new SqlConnection(ArtemConnection);
-            sqlConnection.Open();
+            //sqlConnection = new SqlConnection(Data Source=DESKTOP-KK85Q69;Initial Catalog=SubstancesReferenceBook;Integrated Security=True);
+            return sqlConnection;
+        }
+
+        SqlConnection sqlConnection;
+        public SampleDataController()
+        {
+            sqlConnection = AddNewSqlConn();            
         }
 
 
@@ -573,15 +577,11 @@ namespace SubstancesReferenceBook.Controllers
         //Infa o categorii materiala
         private Category catSub(int catID)
         {
-            SqlConnection sqlConnection1;
-            sqlConnection1 = new SqlConnection("Data Source=MARIA;" +
-                "Initial Catalog=SubstancesReferenceBook;" +
-                "Integrated Security=True");
-            //sqlConnection = new SqlConnection(ArtemConnection);
-            sqlConnection1.Open();
+            SqlConnection sqlConnectioncatSub = AddNewSqlConn();            
+            sqlConnectioncatSub.Open();
 
             string queryTable1 = "SELECT * FROM " + " [dbo].[SubstCategories] WHERE ID = " + catID;
-            SqlCommand command1 = new SqlCommand(queryTable1, sqlConnection1);
+            SqlCommand command1 = new SqlCommand(queryTable1, sqlConnectioncatSub);
             SqlDataReader reader1 = command1.ExecuteReader();
             reader1.Read();
             Category dataCat = new Category()
@@ -593,21 +593,17 @@ namespace SubstancesReferenceBook.Controllers
             };
 
             reader1.Close();
-            sqlConnection1.Close();
+            sqlConnectioncatSub.Close();
             return dataCat;
         }
         //Infa o svoistve
         private Props listProps(int propId)
         {
-            SqlConnection sqlConnection2;
-            sqlConnection2 = new SqlConnection("Data Source=MARIA;" +
-                "Initial Catalog=SubstancesReferenceBook;" +
-                "Integrated Security=True");
-            //sqlConnection = new SqlConnection(ArtemConnection);
-            sqlConnection2.Open();
+            SqlConnection sqlConnectionlistProps = AddNewSqlConn();            
+            sqlConnectionlistProps.Open();
 
             string queryTable = "SELECT * FROM " + " [dbo].[Properties]";
-            SqlCommand command = new SqlCommand(queryTable, sqlConnection2);
+            SqlCommand command = new SqlCommand(queryTable, sqlConnectionlistProps);
             SqlDataReader reader = command.ExecuteReader();
             reader.Read();
             Props data = new Props()
@@ -620,17 +616,13 @@ namespace SubstancesReferenceBook.Controllers
                 HtmlName = reader[5].ToString(),
             };
             reader.Close();
-            sqlConnection2.Close();
+            sqlConnectionlistProps.Close();
             return data;
         }
         //Infa o statichnyh peremennyh dlya massiva
         private StateVariables StateVar(int stateVarId)
         {
-            SqlConnection sqlConnectionStateVar;
-            sqlConnectionStateVar = new SqlConnection("Data Source=MARIA;" +
-                "Initial Catalog=SubstancesReferenceBook;" +
-                "Integrated Security=True");
-            //sqlConnection = new SqlConnection(ArtemConnection);
+            SqlConnection sqlConnectionStateVar = AddNewSqlConn();
             sqlConnectionStateVar.Open();
 
             string queryTable = "SELECT * FROM " + " [dbo].[StateVariables]";
@@ -676,11 +668,7 @@ namespace SubstancesReferenceBook.Controllers
         //Soursec dlya obsego spiska
         private List<string[]> RefSourceStr()
         {
-            SqlConnection sqlConnectionRefSourceStr;
-            sqlConnectionRefSourceStr = new SqlConnection("Data Source=MARIA;" +
-                "Initial Catalog=SubstancesReferenceBook;" +
-                "Integrated Security=True");
-            //sqlConnection = new SqlConnection(ArtemConnection);
+            SqlConnection sqlConnectionRefSourceStr = AddNewSqlConn();
             sqlConnectionRefSourceStr.Open();
             List<string[]> data = new List<string[]>();
             /*REF*/
@@ -700,11 +688,7 @@ namespace SubstancesReferenceBook.Controllers
         }
         private List<string[]> CalcSourceStr()
         {
-            SqlConnection sqlConnectionCalcSourceStr;
-            sqlConnectionCalcSourceStr = new SqlConnection("Data Source=MARIA;" +
-                "Initial Catalog=SubstancesReferenceBook;" +
-                "Integrated Security=True");
-            //sqlConnection = new SqlConnection(ArtemConnection);
+            SqlConnection sqlConnectionCalcSourceStr = AddNewSqlConn();
             sqlConnectionCalcSourceStr.Open();
             List<string[]> data = new List<string[]>();
             /*Calc*/
@@ -724,11 +708,7 @@ namespace SubstancesReferenceBook.Controllers
         }
         private List<string[]> WebSourceStr()
         {
-            SqlConnection sqlConnectionWebSourceStr;
-            sqlConnectionWebSourceStr = new SqlConnection("Data Source=MARIA;" +
-                "Initial Catalog=SubstancesReferenceBook;" +
-                "Integrated Security=True");
-            //sqlConnection = new SqlConnection(ArtemConnection);
+            SqlConnection sqlConnectionWebSourceStr = AddNewSqlConn();
             sqlConnectionWebSourceStr.Open();
             List<string[]> data = new List<string[]>();
             /*Web*/
@@ -748,11 +728,7 @@ namespace SubstancesReferenceBook.Controllers
         }
         private List<string[]> MeasureSourceStr()
         {
-            SqlConnection sqlConnectionMeasureSourceStr;
-            sqlConnectionMeasureSourceStr = new SqlConnection("Data Source=MARIA;" +
-                "Initial Catalog=SubstancesReferenceBook;" +
-                "Integrated Security=True");
-            //sqlConnection = new SqlConnection(ArtemConnection);
+            SqlConnection sqlConnectionMeasureSourceStr = AddNewSqlConn();
             sqlConnectionMeasureSourceStr.Open();
 
             List<string[]> data = new List<string[]>();
