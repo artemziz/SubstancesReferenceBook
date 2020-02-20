@@ -18,11 +18,17 @@ export default class PropsList extends Component{
         return(
             <section className="col s3 PropsList" >
              <ul className="collection with-header">
-            <li className="collection-header"><h4 >Выберите свойство</h4></li>
+            <li className="collection-header"><h4 >Свойства</h4></li>
            
            
             {this.props.subProps.map(prop=>{
-                    return <Prop getValues={this.getValues} key={prop.Id} name={prop.Name} />
+                    return <Prop
+                    getValues={this.getValues}
+                    key={prop.id}
+                    descr={prop.descr} 
+                    name={prop.name}
+                    propUnits = {prop.propUnits}
+                    type = {prop.type} />
                 })}
             
             
