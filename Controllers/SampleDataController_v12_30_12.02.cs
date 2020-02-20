@@ -619,7 +619,7 @@ namespace SubstancesReferenceBook.Controllers
             string queryTable = "SELECT * FROM " + " [dbo].[SubstCategories] WHERE ID = " + catID;
             SqlCommand command = new SqlCommand(queryTable, sqlConnection);
             SqlDataReader reader = command.ExecuteReader();
-
+            reader.Read();
             Category data = new Category()
             {
                 Id = catID,
@@ -637,6 +637,7 @@ namespace SubstancesReferenceBook.Controllers
             string queryTable = "SELECT * FROM " + " [dbo].[Properties]";
             SqlCommand command = new SqlCommand(queryTable, sqlConnection);
             SqlDataReader reader = command.ExecuteReader();
+            reader.Read();
             Props data = new Props()
             {
                 Id = Int32.Parse(reader[0].ToString()),
@@ -655,6 +656,7 @@ namespace SubstancesReferenceBook.Controllers
             string queryTable = "SELECT * FROM " + " [dbo].[StateVariables]";
             SqlCommand command = new SqlCommand(queryTable, sqlConnection);
             SqlDataReader reader = command.ExecuteReader();
+            reader.Read();
             StateVariables data = new StateVariables()
             {
                 Id = Int32.Parse(reader[0].ToString()),
