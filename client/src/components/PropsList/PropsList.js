@@ -21,15 +21,15 @@ export default class PropsList extends Component{
             <li className="collection-header"><h4 >Свойства</h4></li>
            
            
-            {this.props.subProps.map(prop=>{
+            {/* {this.props.subProps.Prop.map(prop=>{
                     return <Prop
                     getValues={this.getValues}
-                    key={prop.id}
-                    descr={prop.descr} 
-                    name={prop.name}
-                    propUnits = {prop.propUnits}
-                    type = {prop.type} />
-                })}
+                    key={prop.Id}
+                    descr={prop.Descr} 
+                    name={prop.Name}
+                    propUnits = {prop.PropUnits}
+                    type = {prop.Type} />
+                })} */}
             
             
             </ul>
