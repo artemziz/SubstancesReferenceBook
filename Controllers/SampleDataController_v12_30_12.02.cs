@@ -17,7 +17,7 @@ namespace SubstancesReferenceBook.Controllers
         public string ArtemConnection = "Data Source=DESKTOP-KK85Q69;Initial Catalog=SubstancesReferenceBook;Integrated Security=True";
         public SampleDataController()
         {
-
+            //SqlConnection sqlConnection;
             sqlConnection = new SqlConnection("Data Source=MARIA;" +
                 "Initial Catalog=SubstancesReferenceBook;" +
                 "Integrated Security=True");
@@ -44,11 +44,10 @@ namespace SubstancesReferenceBook.Controllers
                     Id = Int32.Parse(reader[0].ToString()),
                     Name = reader[1].ToString(),
                     Descr = reader[2].ToString(),
-                    Category = catSub(Int32.Parse(reader[3].ToString()))
+                    Category = catSub(4/*Int32.Parse(reader[3].ToString())*/)
                 }
                 ) ;
-            }
-                        
+            }                        
             reader.Close();
             return data;
         }
@@ -574,26 +573,41 @@ namespace SubstancesReferenceBook.Controllers
         //Infa o categorii materiala
         private Category catSub(int catID)
         {
-            string queryTable = "SELECT * FROM " + " [dbo].[SubstCategories] WHERE ID = " + catID;
-            SqlCommand command = new SqlCommand(queryTable, sqlConnection);
-            SqlDataReader reader = command.ExecuteReader();
-            reader.Read();
-            Category data = new Category()
+            SqlConnection sqlConnection1;
+            sqlConnection1 = new SqlConnection("Data Source=MARIA;" +
+                "Initial Catalog=SubstancesReferenceBook;" +
+                "Integrated Security=True");
+            //sqlConnection = new SqlConnection(ArtemConnection);
+            sqlConnection1.Open();
+
+            string queryTable1 = "SELECT * FROM " + " [dbo].[SubstCategories] WHERE ID = " + catID;
+            SqlCommand command1 = new SqlCommand(queryTable1, sqlConnection1);
+            SqlDataReader reader1 = command1.ExecuteReader();
+            reader1.Read();
+            Category dataCat = new Category()
             {
                 Id = catID,
-                ParentId = Int32.Parse(reader[1].ToString()),
-                Name = reader[2].ToString(),
-                Descr = reader[3].ToString()
+                ParentId = Int32.Parse(reader1[1].ToString()),
+                Name = reader1[2].ToString(),
+                Descr = reader1[3].ToString()
             };
 
-            reader.Close();
-            return data;
+            reader1.Close();
+            sqlConnection1.Close();
+            return dataCat;
         }
         //Infa o svoistve
         private Props listProps(int propId)
         {
+            SqlConnection sqlConnection2;
+            sqlConnection2 = new SqlConnection("Data Source=MARIA;" +
+                "Initial Catalog=SubstancesReferenceBook;" +
+                "Integrated Security=True");
+            //sqlConnection = new SqlConnection(ArtemConnection);
+            sqlConnection2.Open();
+
             string queryTable = "SELECT * FROM " + " [dbo].[Properties]";
-            SqlCommand command = new SqlCommand(queryTable, sqlConnection);
+            SqlCommand command = new SqlCommand(queryTable, sqlConnection2);
             SqlDataReader reader = command.ExecuteReader();
             reader.Read();
             Props data = new Props()
@@ -606,13 +620,21 @@ namespace SubstancesReferenceBook.Controllers
                 HtmlName = reader[5].ToString(),
             };
             reader.Close();
+            sqlConnection2.Close();
             return data;
         }
         //Infa o statichnyh peremennyh dlya massiva
         private StateVariables StateVar(int stateVarId)
         {
+            SqlConnection sqlConnectionStateVar;
+            sqlConnectionStateVar = new SqlConnection("Data Source=MARIA;" +
+                "Initial Catalog=SubstancesReferenceBook;" +
+                "Integrated Security=True");
+            //sqlConnection = new SqlConnection(ArtemConnection);
+            sqlConnectionStateVar.Open();
+
             string queryTable = "SELECT * FROM " + " [dbo].[StateVariables]";
-            SqlCommand command = new SqlCommand(queryTable, sqlConnection);
+            SqlCommand command = new SqlCommand(queryTable, sqlConnectionStateVar);
             SqlDataReader reader = command.ExecuteReader();
             reader.Read();
             StateVariables data = new StateVariables()
@@ -623,6 +645,7 @@ namespace SubstancesReferenceBook.Controllers
                 StateVarUnit = reader[3].ToString()
             };
             reader.Close();
+            sqlConnectionStateVar.Close();
             return data;
         }
         //Izmenenie znachenia DELETED u istochnika
@@ -653,10 +676,16 @@ namespace SubstancesReferenceBook.Controllers
         //Soursec dlya obsego spiska
         private List<string[]> RefSourceStr()
         {
+            SqlConnection sqlConnectionRefSourceStr;
+            sqlConnectionRefSourceStr = new SqlConnection("Data Source=MARIA;" +
+                "Initial Catalog=SubstancesReferenceBook;" +
+                "Integrated Security=True");
+            //sqlConnection = new SqlConnection(ArtemConnection);
+            sqlConnectionRefSourceStr.Open();
             List<string[]> data = new List<string[]>();
             /*REF*/
             string queryTable = "SELECT * FROM " + " [dbo].[RefSources]";
-            SqlCommand command = new SqlCommand(queryTable, sqlConnection);
+            SqlCommand command = new SqlCommand(queryTable, sqlConnectionRefSourceStr);
             SqlDataReader reader = command.ExecuteReader();
             while (reader.Read())
             {
@@ -666,14 +695,21 @@ namespace SubstancesReferenceBook.Controllers
                 data[data.Count() - 1][2] = reader[2].ToString();
             }
             reader.Close();
+            sqlConnectionRefSourceStr.Close();
             return data;
         }
         private List<string[]> CalcSourceStr()
         {
+            SqlConnection sqlConnectionCalcSourceStr;
+            sqlConnectionCalcSourceStr = new SqlConnection("Data Source=MARIA;" +
+                "Initial Catalog=SubstancesReferenceBook;" +
+                "Integrated Security=True");
+            //sqlConnection = new SqlConnection(ArtemConnection);
+            sqlConnectionCalcSourceStr.Open();
             List<string[]> data = new List<string[]>();
             /*Calc*/
             string queryTable = "SELECT * FROM " + " [dbo].[CalcSources]";
-            SqlCommand command = new SqlCommand(queryTable, sqlConnection);
+            SqlCommand command = new SqlCommand(queryTable, sqlConnectionCalcSourceStr);
             SqlDataReader reader = command.ExecuteReader();
             while (reader.Read())
             {
@@ -683,14 +719,21 @@ namespace SubstancesReferenceBook.Controllers
                 data[data.Count() - 1][2] = reader[2].ToString();
             }
             reader.Close();
+            sqlConnectionCalcSourceStr.Close();
             return data;
         }
         private List<string[]> WebSourceStr()
         {
+            SqlConnection sqlConnectionWebSourceStr;
+            sqlConnectionWebSourceStr = new SqlConnection("Data Source=MARIA;" +
+                "Initial Catalog=SubstancesReferenceBook;" +
+                "Integrated Security=True");
+            //sqlConnection = new SqlConnection(ArtemConnection);
+            sqlConnectionWebSourceStr.Open();
             List<string[]> data = new List<string[]>();
             /*Web*/
             string queryTable = "SELECT * FROM " + " [dbo].[WebSources]";
-            SqlCommand command = new SqlCommand(queryTable, sqlConnection);
+            SqlCommand command = new SqlCommand(queryTable, sqlConnectionWebSourceStr);
             SqlDataReader reader = command.ExecuteReader();
             while (reader.Read())
             {
@@ -700,14 +743,22 @@ namespace SubstancesReferenceBook.Controllers
                 data[data.Count() - 1][2] = reader[2].ToString();
             }
             reader.Close();
+            sqlConnectionWebSourceStr.Close();
             return data;
         }
         private List<string[]> MeasureSourceStr()
         {
+            SqlConnection sqlConnectionMeasureSourceStr;
+            sqlConnectionMeasureSourceStr = new SqlConnection("Data Source=MARIA;" +
+                "Initial Catalog=SubstancesReferenceBook;" +
+                "Integrated Security=True");
+            //sqlConnection = new SqlConnection(ArtemConnection);
+            sqlConnectionMeasureSourceStr.Open();
+
             List<string[]> data = new List<string[]>();
             /*Measure*/
             string queryTable = "SELECT * FROM " + " [dbo].[MeasureSources]";
-            SqlCommand command = new SqlCommand(queryTable, sqlConnection);
+            SqlCommand command = new SqlCommand(queryTable, sqlConnectionMeasureSourceStr);
             SqlDataReader reader = command.ExecuteReader();
             while (reader.Read())
             {
@@ -717,6 +768,7 @@ namespace SubstancesReferenceBook.Controllers
                 data[data.Count() - 1][2] = reader[2].ToString();
             }
             reader.Close();
+            sqlConnectionMeasureSourceStr.Close();
             return data;
         }
 
