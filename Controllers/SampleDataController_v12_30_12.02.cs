@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 
 /*
+ * MashaConnection
+                "Initial Catalog=SubstancesReferenceBook;" +
+                "Integrated Security=True"
  * NUZHEN Aj-PI chtob mozhno bylo podklyuchat'sya k servernomu prilozheniyu, a ne k sserveru
  * */
 namespace SubstancesReferenceBook.Controllers
@@ -13,20 +16,17 @@ namespace SubstancesReferenceBook.Controllers
     //[Route("[controller]")]
     public class SampleDataController : Controller
     {  
-        private SqlConnection AddNewSqlConn()
-        {
-            SqlConnection sqlConnection;
-            sqlConnection = new SqlConnection("Data Source=MARIA;" +
-                "Initial Catalog=SubstancesReferenceBook;" +
-                "Integrated Security=True");
-            //sqlConnection = new SqlConnection(Data Source=DESKTOP-KK85Q69;Initial Catalog=SubstancesReferenceBook;Integrated Security=True);
-            return sqlConnection;
-        }
-
         SqlConnection sqlConnection;
+        public string MashaConnection = "Data Source=MARIA;" +
+                "Initial Catalog=SubstancesReferenceBook;" +
+                "Integrated Security=True";
+        public string ArtemConnection = "Data Source=DESKTOP-KK85Q69;Initial Catalog=SubstancesReferenceBook;Integrated Security=True";
         public SampleDataController()
         {
-            sqlConnection = AddNewSqlConn();            
+            //SqlConnection sqlConnection;
+            sqlConnection = new SqlConnection(MashaConnection);
+            //sqlConnection = new SqlConnection(ArtemConnection);
+            sqlConnection.Open();
         }
 
 
@@ -51,8 +51,10 @@ namespace SubstancesReferenceBook.Controllers
                     Category = catSub(4/*Int32.Parse(reader[3].ToString())*/)
                 }
                 ) ;
-            }                        
+            }           
+            
             reader.Close();
+            bool i = reader.IsClosed;
             return data;
         }
         
@@ -82,7 +84,7 @@ namespace SubstancesReferenceBook.Controllers
             return data;
         }
 
-        //Tipy istochnikov
+        //Tipy istochnikov - DONT WORK
         [HttpGet("types")]
         public List<SourceType> LlistOfSourceTypes()
         {
@@ -577,11 +579,13 @@ namespace SubstancesReferenceBook.Controllers
         //Infa o categorii materiala
         private Category catSub(int catID)
         {
-            SqlConnection sqlConnectioncatSub = AddNewSqlConn();            
-            sqlConnectioncatSub.Open();
+            SqlConnection sqlConnection1;
+            sqlConnection1 = new SqlConnection(MashaConnection);
+            //sqlConnection = new SqlConnection(ArtemConnection);
+            sqlConnection1.Open();
 
             string queryTable1 = "SELECT * FROM " + " [dbo].[SubstCategories] WHERE ID = " + catID;
-            SqlCommand command1 = new SqlCommand(queryTable1, sqlConnectioncatSub);
+            SqlCommand command1 = new SqlCommand(queryTable1, sqlConnection1);
             SqlDataReader reader1 = command1.ExecuteReader();
             reader1.Read();
             Category dataCat = new Category()
@@ -593,17 +597,19 @@ namespace SubstancesReferenceBook.Controllers
             };
 
             reader1.Close();
-            sqlConnectioncatSub.Close();
+            sqlConnection1.Close();
             return dataCat;
         }
         //Infa o svoistve
         private Props listProps(int propId)
         {
-            SqlConnection sqlConnectionlistProps = AddNewSqlConn();            
-            sqlConnectionlistProps.Open();
+            SqlConnection sqlConnection2;
+            sqlConnection2 = new SqlConnection(MashaConnection);
+            //sqlConnection = new SqlConnection(ArtemConnection);
+            sqlConnection2.Open();
 
             string queryTable = "SELECT * FROM " + " [dbo].[Properties]";
-            SqlCommand command = new SqlCommand(queryTable, sqlConnectionlistProps);
+            SqlCommand command = new SqlCommand(queryTable, sqlConnection2);
             SqlDataReader reader = command.ExecuteReader();
             reader.Read();
             Props data = new Props()
@@ -616,13 +622,15 @@ namespace SubstancesReferenceBook.Controllers
                 HtmlName = reader[5].ToString(),
             };
             reader.Close();
-            sqlConnectionlistProps.Close();
+            sqlConnection2.Close();
             return data;
         }
         //Infa o statichnyh peremennyh dlya massiva
         private StateVariables StateVar(int stateVarId)
         {
-            SqlConnection sqlConnectionStateVar = AddNewSqlConn();
+            SqlConnection sqlConnectionStateVar;
+            sqlConnectionStateVar = new SqlConnection(MashaConnection);
+            //sqlConnection = new SqlConnection(ArtemConnection);
             sqlConnectionStateVar.Open();
 
             string queryTable = "SELECT * FROM " + " [dbo].[StateVariables]";
@@ -668,7 +676,9 @@ namespace SubstancesReferenceBook.Controllers
         //Soursec dlya obsego spiska
         private List<string[]> RefSourceStr()
         {
-            SqlConnection sqlConnectionRefSourceStr = AddNewSqlConn();
+            SqlConnection sqlConnectionRefSourceStr;
+            sqlConnectionRefSourceStr = new SqlConnection(MashaConnection);
+            //sqlConnection = new SqlConnection(ArtemConnection);
             sqlConnectionRefSourceStr.Open();
             List<string[]> data = new List<string[]>();
             /*REF*/
@@ -688,7 +698,9 @@ namespace SubstancesReferenceBook.Controllers
         }
         private List<string[]> CalcSourceStr()
         {
-            SqlConnection sqlConnectionCalcSourceStr = AddNewSqlConn();
+            SqlConnection sqlConnectionCalcSourceStr;
+            sqlConnectionCalcSourceStr = new SqlConnection(MashaConnection);
+            //sqlConnection = new SqlConnection(ArtemConnection);
             sqlConnectionCalcSourceStr.Open();
             List<string[]> data = new List<string[]>();
             /*Calc*/
@@ -708,7 +720,9 @@ namespace SubstancesReferenceBook.Controllers
         }
         private List<string[]> WebSourceStr()
         {
-            SqlConnection sqlConnectionWebSourceStr = AddNewSqlConn();
+            SqlConnection sqlConnectionWebSourceStr;
+            sqlConnectionWebSourceStr = new SqlConnection(MashaConnection);
+            //sqlConnection = new SqlConnection(ArtemConnection);
             sqlConnectionWebSourceStr.Open();
             List<string[]> data = new List<string[]>();
             /*Web*/
@@ -728,7 +742,9 @@ namespace SubstancesReferenceBook.Controllers
         }
         private List<string[]> MeasureSourceStr()
         {
-            SqlConnection sqlConnectionMeasureSourceStr = AddNewSqlConn();
+            SqlConnection sqlConnectionMeasureSourceStr;
+            sqlConnectionMeasureSourceStr = new SqlConnection(MashaConnection);
+            //sqlConnection = new SqlConnection(ArtemConnection);
             sqlConnectionMeasureSourceStr.Open();
 
             List<string[]> data = new List<string[]>();
