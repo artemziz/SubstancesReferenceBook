@@ -94,7 +94,7 @@ class App extends Component{
         info = sub;
       }
     })
-    fetch(`https://localhost:5001/getProps?id=${subId}`)
+    fetch(`https://localhost:5001/properties?id=${subId}`)
     .then(data=>{
       return data.json();
     }).then(props=>{
