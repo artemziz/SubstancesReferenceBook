@@ -17,8 +17,9 @@ class App extends Component{
       //array of sub's props for propsList
       subProps:[],
       //info about current sub
-      info:[],
+      subInfo:[],
       //array of values
+      propInfo:[],
       values:[],
       showInfoAndProps:false,
 
@@ -45,6 +46,76 @@ class App extends Component{
 }
 
   getValues(propSubId){
+    
+      this.state.subProps.forEach(subProp =>{
+        if(subProp['id']===propSubId){
+          if(subProp['prop']['type']===1){
+            fetch(`https://localhost:5001/Array?propSubID=${propSubId}`)
+            .then(res =>{
+              return res.json();
+            })
+            .then(data =>{
+              this.setState({
+                values:data.map(elem =>{
+                  return elem.values
+                }),
+                propInfo:[subProp,data],
+                subInfo:[],
+              },()=>{
+                  document.getElementsByClassName('Values')[0].classList.add('visible');
+                })
+              
+            })
+            .catch(err=>{
+              console.log(err);
+              
+            })
+            
+            
+          } else if(subProp['prop']['type']===2){
+              fetch(`https://localhost:5001/assoc?propSubID=${propSubId}`)
+              .then(res =>{
+                return res.json();
+              })
+              .then(data =>{
+                this.setState({
+                  values:data[0].values,
+                  propInfo:[subProp,data]
+                },()=>{
+                    document.getElementsByClassName('Values')[0].classList.add('visible');
+                  })
+                
+              })
+              .catch(err=>{
+                console.log(err);
+                
+              })
+          } else if(subProp['prop']['type']===3){
+              fetch(`https://localhost:5001/scalar?propSubID=${propSubId}`)
+                .then(res =>{
+                  return res.json();
+                })
+                .then(data =>{
+                  this.setState({
+                    values:data[0].values,
+                    propInfo:[subProp,data]
+                  },()=>{
+                      document.getElementsByClassName('Values')[0].classList.add('visible');
+                    })
+                  
+                })
+                .catch(err=>{
+                  console.log(err);
+                  
+                })
+          }else{
+            console.log("error");
+            
+          }
+        }
+      })
+    
+    
 
     // this.setState({
       
@@ -94,14 +165,16 @@ class App extends Component{
         info = sub;
       }
     })
-    fetch(`https://localhost:5001/properties?id=${subId}`)
+    fetch(`https://localhost:5001/properties?subId=${subId}`)
     .then(data=>{
       return data.json();
     }).then(props=>{
       
+      
       this.setState({
         subProps:props,
-        info:info,
+        subInfo:info,
+        propInfo:[],
         showInfoAndProps:this.state.info===null?false:true
       },()=>{
         if(this.state.showInfoAndProps === true){
@@ -114,33 +187,7 @@ class App extends Component{
       
     })
     
-    // this.setState({
-    //   subProps: [{
-    //     "Id":"0",
-    //     "Name":"NameProp",
-    //     "Descr":"DescrProp",
-    //     "PropUnits":"Unit",
-    // },
-    // {
-    //     "Id":"1",
-    //     "Name":"Some another props",
-    //     "Descr":"Another props",
-    //     "PropUnits":"Unit23",
-    // }],
-    //   info:{
-    //     "Id":"0",
-    //     "Name":"NameOfSub",
-    //     "Descr":"DescrSub",
-    //   },
-    //   showInfoAndProps:this.state.info===null?false:true
-    // },()=>{
-    //   if(this.state.showInfoAndProps === true){
-    //     document.getElementsByClassName('Info')[0].classList.add('visible');
-    //     document.getElementsByClassName('PropsList')[0].classList.add('visible');
-    //   }
-    // });
-    
-    
+  
   }
   render(){
     
@@ -158,9 +205,9 @@ class App extends Component{
                   
             </article>
           
-            <Info info={this.state.info}/>
+            <Info propInfo={this.state.propInfo} subInfo={this.state.subInfo}/>
           </div>
-          <Values/>
+          <Values values = {this.state.values}/>
           
         </div>
         

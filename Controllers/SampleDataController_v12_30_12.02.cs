@@ -24,8 +24,8 @@ namespace SubstancesReferenceBook.Controllers
         public SampleDataController()
         {
             //SqlConnection sqlConnection;
-            sqlConnection = new SqlConnection(MashaConnection);
-            //sqlConnection = new SqlConnection(ArtemConnection);
+            //sqlConnection = new SqlConnection(MashaConnection);
+            sqlConnection = new SqlConnection(ArtemConnection);
             sqlConnection.Open();
         }
 
@@ -48,7 +48,7 @@ namespace SubstancesReferenceBook.Controllers
                     Id = Int32.Parse(reader[0].ToString()),
                     Name = reader[1].ToString(),
                     Descr = reader[2].ToString(),
-                    Category = catSub(4/*Int32.Parse(reader[3].ToString())*/)
+                    Category = catSub(Int32.Parse(reader[3].ToString()))
                 }
                 ) ;
             }           
@@ -580,8 +580,8 @@ namespace SubstancesReferenceBook.Controllers
         private Category catSub(int catID)
         {
             SqlConnection sqlConnection1;
-            sqlConnection1 = new SqlConnection(MashaConnection);
-            //sqlConnection = new SqlConnection(ArtemConnection);
+            //sqlConnection1 = new SqlConnection(MashaConnection);
+            sqlConnection1 = new SqlConnection(ArtemConnection);
             sqlConnection1.Open();
 
             string queryTable1 = "SELECT * FROM " + " [dbo].[SubstCategories] WHERE ID = " + catID;
@@ -604,8 +604,8 @@ namespace SubstancesReferenceBook.Controllers
         private Props listProps(int propId)
         {
             SqlConnection sqlConnection2;
-            sqlConnection2 = new SqlConnection(MashaConnection);
-            //sqlConnection = new SqlConnection(ArtemConnection);
+            //sqlConnection2 = new SqlConnection(MashaConnection);
+            sqlConnection2 = new SqlConnection(ArtemConnection);
             sqlConnection2.Open();
 
             string queryTable = "SELECT * FROM " + " [dbo].[Properties]";
@@ -629,8 +629,8 @@ namespace SubstancesReferenceBook.Controllers
         private StateVariables StateVar(int stateVarId)
         {
             SqlConnection sqlConnectionStateVar;
-            sqlConnectionStateVar = new SqlConnection(MashaConnection);
-            //sqlConnection = new SqlConnection(ArtemConnection);
+            //sqlConnectionStateVar = new SqlConnection(MashaConnection);
+            sqlConnectionStateVar = new SqlConnection(ArtemConnection);
             sqlConnectionStateVar.Open();
 
             string queryTable = "SELECT * FROM " + " [dbo].[StateVariables]";
@@ -677,8 +677,8 @@ namespace SubstancesReferenceBook.Controllers
         private List<string[]> RefSourceStr()
         {
             SqlConnection sqlConnectionRefSourceStr;
-            sqlConnectionRefSourceStr = new SqlConnection(MashaConnection);
-            //sqlConnection = new SqlConnection(ArtemConnection);
+            //sqlConnectionRefSourceStr = new SqlConnection(MashaConnection);
+            sqlConnectionRefSourceStr = new SqlConnection(ArtemConnection);
             sqlConnectionRefSourceStr.Open();
             List<string[]> data = new List<string[]>();
             /*REF*/
@@ -699,8 +699,8 @@ namespace SubstancesReferenceBook.Controllers
         private List<string[]> CalcSourceStr()
         {
             SqlConnection sqlConnectionCalcSourceStr;
-            sqlConnectionCalcSourceStr = new SqlConnection(MashaConnection);
-            //sqlConnection = new SqlConnection(ArtemConnection);
+            //sqlConnectionCalcSourceStr = new SqlConnection(MashaConnection);
+            sqlConnectionCalcSourceStr = new SqlConnection(ArtemConnection);
             sqlConnectionCalcSourceStr.Open();
             List<string[]> data = new List<string[]>();
             /*Calc*/
@@ -721,8 +721,8 @@ namespace SubstancesReferenceBook.Controllers
         private List<string[]> WebSourceStr()
         {
             SqlConnection sqlConnectionWebSourceStr;
-            sqlConnectionWebSourceStr = new SqlConnection(MashaConnection);
-            //sqlConnection = new SqlConnection(ArtemConnection);
+            //sqlConnectionWebSourceStr = new SqlConnection(MashaConnection);
+            sqlConnectionWebSourceStr = new SqlConnection(ArtemConnection);
             sqlConnectionWebSourceStr.Open();
             List<string[]> data = new List<string[]>();
             /*Web*/
@@ -743,8 +743,8 @@ namespace SubstancesReferenceBook.Controllers
         private List<string[]> MeasureSourceStr()
         {
             SqlConnection sqlConnectionMeasureSourceStr;
-            sqlConnectionMeasureSourceStr = new SqlConnection(MashaConnection);
-            //sqlConnection = new SqlConnection(ArtemConnection);
+            //sqlConnectionMeasureSourceStr = new SqlConnection(MashaConnection);
+            sqlConnectionMeasureSourceStr = new SqlConnection(ArtemConnection);
             sqlConnectionMeasureSourceStr.Open();
 
             List<string[]> data = new List<string[]>();

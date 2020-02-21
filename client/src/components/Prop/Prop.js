@@ -6,7 +6,7 @@ export default class Prop extends Component{
         this.getValues = this.getValues.bind(this);
     }
     getValues(){
-        this.props.getValues(this.props.Id);
+        this.props.getValues(this.props.propSubId);
     }
     render(){
         return(
