@@ -2,18 +2,33 @@ import React,{Component} from 'react';
 import {VerticalGridLines,HorizontalGridLines,XAxis,XYPlot,YAxis,LineSeries} from 'react-vis';
 
 export default class Values extends Component{
+    constructor(props){
+        super(props);
+        this.state = {
+            values:[]
+        }
+    }
+
+    componentDidUpdate(prevProps){
+        if(this.props.values!==prevProps.values){
+            this.setState({
+                values:this.props.values.map(value =>{
+                    return {x:value[0],y:value[1]}
+
+                })
+            })
+            
+        }
+    }
     render(){
         const data = [
-            {x: 0, y: 8},
-            {x: 1, y: 5},
-            {x: 2, y: 4},
-            {x: 3, y: 9},
-            {x: 4, y: 1},
-            {x: 5, y: 7},
-            {x: 6, y: 6},
-            {x: 7, y: 3},
-            {x: 8, y: 2},
-            {x: 9, y: 0}
+            {x: 300, y: 500},
+            {x: 250, y: 280},
+            {x: 260, y: 430},
+            {x: 312, y: 923},
+            {x: 454, y: 168},
+            {x: 500, y: 723},
+            
           ];
         return(
             <section className="Values container">
@@ -22,6 +37,7 @@ export default class Values extends Component{
                 <HorizontalGridLines />
                 <XAxis />
                 <YAxis />
+                <LineSeries data={this.state.values} />
                 <LineSeries data={data} />
                 </XYPlot>
                 <table className="highlight responsive-table">
@@ -32,7 +48,7 @@ export default class Values extends Component{
                     </tr>
                 </thead>
                 <tbody>
-                    {data.map(({x,y})=>{
+                    {this.state.values.map(({x,y})=>{
                         return <tr key={x}>
                             <td>{x}</td>
                             <td>
