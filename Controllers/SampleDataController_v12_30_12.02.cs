@@ -17,14 +17,12 @@ namespace SubstancesReferenceBook.Controllers
     public class SampleDataController : Controller
     {  
         SqlConnection sqlConnection;
-        public string MashaConnection = "Data Source=MARIA;" +
-                "Initial Catalog=SubstancesReferenceBook;" +
-                "Integrated Security=True";
-        public string ArtemConnection = "Data Source=DESKTOP-KK85Q69;Initial Catalog=SubstancesReferenceBook;Integrated Security=True";
+        public string Conn = "Data Source=MARIA;Initial Catalog=SubstancesReferenceBook;Integrated Security=True";
+        //public string Conn = "Data Source=DESKTOP-KK85Q69;Initial Catalog=SubstancesReferenceBook;Integrated Security=True";
         public SampleDataController()
         {
             //SqlConnection sqlConnection;
-            sqlConnection = new SqlConnection(MashaConnection);
+            sqlConnection = new SqlConnection(Conn);
             //sqlConnection = new SqlConnection(ArtemConnection);
             sqlConnection.Open();
         }
@@ -561,26 +559,62 @@ namespace SubstancesReferenceBook.Controllers
             SqlCommand command1 = new SqlCommand(queryTablel, sqlConnection);
             command1.ExecuteNonQuery();
         }
-        [HttpGet()]
-        public void AddSource()
+        [HttpGet("AddSource")]
+        public void AddSource(int typeS, string source)
         {
-
+            string queryTabel = "";
+            switch (typeS)
+            {
+                case 1:
+                    queryTabel = "INSERT INTO[dbo].[MeasureSources] (Conditions) VALUES('" + source + "')";
+                    break;
+                case 2:
+                    queryTabel = "INSERT INTO[dbo].[WebSources] ([URL]) VALUES('" + source + "')";
+                    break;
+                case 3:
+                    queryTabel = "INSERT INTO[dbo].[RefSources] (Reference) VALUES('" + source + "')";
+                    break;
+                case 4:
+                    queryTabel = "INSERT INTO[dbo].[CalcSources] (VariantID) VALUES('" + Int32.Parse(source) + "')";
+                    break;
+            }
+            //source = "The best Ref";
+            //queryTabel = "INSERT INTO[dbo].[RefSources] (Reference) VALUES('" + source + "')";
+            SqlCommand command = new SqlCommand(queryTabel, sqlConnection);
+            command.ExecuteNonQuery();
+            //return queryTabel;
         }
-        [HttpGet()]
-        public void AddValue()
+        
+        [HttpGet("AddArray")]
+        public void AddValueArray()
         {
-
+            string queryTabel = "INSERT INTO [dbo].[] () VALUES()";
+            SqlCommand command = new SqlCommand(queryTabel, sqlConnection);
+            command.ExecuteNonQuery();
+        }
+        [HttpGet("AddAssoc")]
+        public void AddValueAssoc()
+        {
+            string queryTabel = "INSERT INTO [dbo].[] () VALUES()";
+            SqlCommand command = new SqlCommand(queryTabel, sqlConnection);
+            command.ExecuteNonQuery();
+        }
+        [HttpGet("AddScalar")]
+        public void AddValueScalar()
+        {
+            string queryTabel = "INSERT INTO [dbo].[] () VALUES()";
+            SqlCommand command = new SqlCommand(queryTabel, sqlConnection);
+            command.ExecuteNonQuery();
         }
 
 
 
-
-    //PRIVATE 
+        //PRIVATE 
         //Infa o categorii materiala
         private Category catSub(int catID)
         {
             SqlConnection sqlConnection1;
-            sqlConnection1 = new SqlConnection(MashaConnection);
+            sqlConnection1 = new SqlConnection(Conn);
             //sqlConnection = new SqlConnection(ArtemConnection);
             sqlConnection1.Open();
 
@@ -604,7 +638,7 @@ namespace SubstancesReferenceBook.Controllers
         private Props listProps(int propId)
         {
             SqlConnection sqlConnection2;
-            sqlConnection2 = new SqlConnection(MashaConnection);
+            sqlConnection2 = new SqlConnection(Conn);
             //sqlConnection = new SqlConnection(ArtemConnection);
             sqlConnection2.Open();
 
@@ -629,7 +663,7 @@ namespace SubstancesReferenceBook.Controllers
         private StateVariables StateVar(int stateVarId)
         {
             SqlConnection sqlConnectionStateVar;
-            sqlConnectionStateVar = new SqlConnection(MashaConnection);
+            sqlConnectionStateVar = new SqlConnection(Conn);
             //sqlConnection = new SqlConnection(ArtemConnection);
             sqlConnectionStateVar.Open();
 
@@ -677,7 +711,7 @@ namespace SubstancesReferenceBook.Controllers
         private List<string[]> RefSourceStr()
         {
             SqlConnection sqlConnectionRefSourceStr;
-            sqlConnectionRefSourceStr = new SqlConnection(MashaConnection);
+            sqlConnectionRefSourceStr = new SqlConnection(Conn);
             //sqlConnection = new SqlConnection(ArtemConnection);
             sqlConnectionRefSourceStr.Open();
             List<string[]> data = new List<string[]>();
@@ -699,7 +733,7 @@ namespace SubstancesReferenceBook.Controllers
         private List<string[]> CalcSourceStr()
         {
             SqlConnection sqlConnectionCalcSourceStr;
-            sqlConnectionCalcSourceStr = new SqlConnection(MashaConnection);
+            sqlConnectionCalcSourceStr = new SqlConnection(Conn);
             //sqlConnection = new SqlConnection(ArtemConnection);
             sqlConnectionCalcSourceStr.Open();
             List<string[]> data = new List<string[]>();
@@ -711,7 +745,7 @@ namespace SubstancesReferenceBook.Controllers
             {
                 data.Add(new string[3]);
                 data[data.Count() - 1][0] = reader[0].ToString();
-                data[data.Count() - 1][1] = "������";
+                data[data.Count() - 1][1] = "Raschet";
                 data[data.Count() - 1][2] = reader[2].ToString();
             }
             reader.Close();
@@ -721,7 +755,7 @@ namespace SubstancesReferenceBook.Controllers
         private List<string[]> WebSourceStr()
         {
             SqlConnection sqlConnectionWebSourceStr;
-            sqlConnectionWebSourceStr = new SqlConnection(MashaConnection);
+            sqlConnectionWebSourceStr = new SqlConnection(Conn);
             //sqlConnection = new SqlConnection(ArtemConnection);
             sqlConnectionWebSourceStr.Open();
             List<string[]> data = new List<string[]>();
@@ -743,7 +777,7 @@ namespace SubstancesReferenceBook.Controllers
         private List<string[]> MeasureSourceStr()
         {
             SqlConnection sqlConnectionMeasureSourceStr;
-            sqlConnectionMeasureSourceStr = new SqlConnection(MashaConnection);
+            sqlConnectionMeasureSourceStr = new SqlConnection(Conn);
             //sqlConnection = new SqlConnection(ArtemConnection);
             sqlConnectionMeasureSourceStr.Open();
 
