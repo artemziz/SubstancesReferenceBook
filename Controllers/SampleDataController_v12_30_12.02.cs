@@ -17,8 +17,8 @@ namespace SubstancesReferenceBook.Controllers
     public class SampleDataController : Controller
     {  
         SqlConnection sqlConnection;
-        public string Conn = "Data Source=MARIA;Initial Catalog=SubstancesReferenceBook;Integrated Security=True";
-        //public string Conn = "Data Source=DESKTOP-KK85Q69;Initial Catalog=SubstancesReferenceBook;Integrated Security=True";
+        //public string Conn = "Data Source=MARIA;Initial Catalog=SubstancesReferenceBook;Integrated Security=True";
+        public string Conn = "Data Source=DESKTOP-KK85Q69;Initial Catalog=SubstancesReferenceBook;Integrated Security=True";
         public SampleDataController()
         {
             //SqlConnection sqlConnection;
@@ -551,10 +551,11 @@ namespace SubstancesReferenceBook.Controllers
             command1.ExecuteNonQuery();
             return listOfOneSub(subID);
         }
-        [HttpGet()]
-        public void AddSub(string htmlNameSubAdd, int categoryIdSubAdd, string nameSubAdd, string descrSubAdd = "")
+        [HttpPost("AddSub")]
+        public void AddSub([FromBody] string htmlNameSubAdd, int categoryIdSubAdd, string nameSubAdd, string descrSubAdd = "")
         {
-            string queryTablel = "INSERT INTO [dbo].[Substances] (Name, Descr, CategoryID, HtmlName) VALUES ('" + nameSubAdd + "', '" + descrSubAdd + "', " + categoryIdSubAdd + ", '" + htmlNameSubAdd + "')";
+            
+            string queryTablel = "INSERT INTO [dbo].[Substances] (Name, Descr, CategoryID, HtmlName) VALUES ('" + nameSubAdd + "', '" + descrSubAdd + "', " + Int32.Parse(categoryIdSubAdd.ToString()) + ", '" + htmlNameSubAdd + "')";
 
             SqlCommand command1 = new SqlCommand(queryTablel, sqlConnection);
             command1.ExecuteNonQuery();

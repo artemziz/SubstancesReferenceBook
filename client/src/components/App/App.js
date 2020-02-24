@@ -22,6 +22,10 @@ class App extends Component{
       propInfo:[],
       values:[],
       showInfoAndProps:false,
+      showAddPanel:false,
+
+      
+
 
     }
   }
@@ -189,6 +193,12 @@ class App extends Component{
     
   
   }
+
+  addSub = () => {
+    this.setState({
+      showAddPanel:!this.state.showAddPanel
+    })
+  }
   render(){
     
       return(  
@@ -196,11 +206,11 @@ class App extends Component{
         <div>
         
           <Header/>
-          {/* <AddPanel/> */}
+          <AddPanel show={this.state.showAddPanel}/>
          
           <div className="row">
             <article className="container">
-                  <SubList subs={this.state.subs} getProps={this.getProps}/>
+                  <SubList addSub={this.addSub} subs={this.state.subs} getProps={this.getProps}/>
                   <PropsList getValues={this.getValues} subProps={this.state.subProps}/>
                   
             </article>

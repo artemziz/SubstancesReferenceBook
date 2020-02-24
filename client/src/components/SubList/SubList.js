@@ -12,7 +12,9 @@ export default class SubList extends Component{
     getProps(subId){
         this.props.getProps(subId);
     }
-    
+    addSub = () =>{
+        this.props.addSub();
+    }
     render(){
         return(
             <section className="col s3 SubList" >
@@ -27,7 +29,7 @@ export default class SubList extends Component{
             
             
             </ul>
-            <a className="btn-floating btn-large waves-effect waves-light red accent-4 SubList-button"><i className="material-icons">add</i></a>
+            <a onClick={this.addSub} className="btn-floating btn-large waves-effect waves-light red accent-4 SubList-button"><i className="material-icons">add</i></a>
             </section>
         )
     }

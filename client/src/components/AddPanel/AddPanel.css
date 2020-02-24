@@ -1,19 +1,27 @@
 .AddPanel-form{
-    position: relative;
-    margin: auto;
+    
     border: 1px solid black;
     width: fit-content;
     min-width: 50%;
-    height: 50%;
+    height: auto;
     z-index: 1000;
     background-color: white;
     text-align: center;
     border-radius: 10%;
+    padding:5%;
+    
     
 }
 .AddPanel{
-    position: fixed;
+    
     display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+}
+.AddPanel-black{
+    position: fixed;
+    
     left:0;
     top:0;
     background-color: black;
@@ -22,4 +30,7 @@
     opacity: 0.9;
     border: 1px solid black;
     z-index: 999;
+}
+.AddPanel-button{
+    float:right;
 }
