@@ -161,12 +161,14 @@ class App extends Component{
     // })
     
   }
-
+  
   getProps(subId){
     let info = {};
     this.state.subs.forEach(sub=>{
       if(sub['id']===subId){
         info = sub;
+        console.log(info);
+        
       }
     })
     fetch(`https://localhost:5001/properties?subId=${subId}`)

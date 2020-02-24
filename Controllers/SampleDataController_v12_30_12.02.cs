@@ -46,7 +46,7 @@ namespace SubstancesReferenceBook.Controllers
                     Id = Int32.Parse(reader[0].ToString()),
                     Name = reader[1].ToString(),
                     Descr = reader[2].ToString(),
-                    Category = catSub(4/*Int32.Parse(reader[3].ToString())*/)
+                    Category = catSub(Int32.Parse(reader[3].ToString()))
                 }
                 ) ;
             }           
@@ -551,11 +551,11 @@ namespace SubstancesReferenceBook.Controllers
             command1.ExecuteNonQuery();
             return listOfOneSub(subID);
         }
-        [HttpPost("AddSub")]
-        public void AddSub([FromBody] string htmlNameSubAdd, int categoryIdSubAdd, string nameSubAdd, string descrSubAdd = "")
+        [HttpGet("AddSub")]
+        public void AddSub(string htmlNameSubAdd, int categoryIdSubAdd, string nameSubAdd, string descrSubAdd = "")
         {
             
-            string queryTablel = "INSERT INTO [dbo].[Substances] (Name, Descr, CategoryID, HtmlName) VALUES ('" + nameSubAdd + "', '" + descrSubAdd + "', " + Int32.Parse(categoryIdSubAdd.ToString()) + ", '" + htmlNameSubAdd + "')";
+            string queryTablel = "INSERT INTO [dbo].[Substances] (Name, Descr, CategoryID, HtmlName) VALUES ('" + nameSubAdd + "', '" + descrSubAdd + "', " + categoryIdSubAdd + ", '" + htmlNameSubAdd + "')";
 
             SqlCommand command1 = new SqlCommand(queryTablel, sqlConnection);
             command1.ExecuteNonQuery();
