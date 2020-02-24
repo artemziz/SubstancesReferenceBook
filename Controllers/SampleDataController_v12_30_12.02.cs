@@ -551,7 +551,7 @@ namespace SubstancesReferenceBook.Controllers
             command1.ExecuteNonQuery();
             return listOfOneSub(subID);
         }
-        [HttpGet()]
+        [HttpGet("AddSub")]
         public void AddSub(string htmlNameSubAdd, int categoryIdSubAdd, string nameSubAdd, string descrSubAdd = "")
         {
             string queryTablel = "INSERT INTO [dbo].[Substances] (Name, Descr, CategoryID, HtmlName) VALUES ('" + nameSubAdd + "', '" + descrSubAdd + "', " + categoryIdSubAdd + ", '" + htmlNameSubAdd + "')";
