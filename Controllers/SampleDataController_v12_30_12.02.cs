@@ -555,7 +555,7 @@ namespace SubstancesReferenceBook.Controllers
         public void AddSub(string htmlNameSubAdd, int categoryIdSubAdd, string nameSubAdd, string descrSubAdd = "")
         {
             string queryTablel = "INSERT INTO [dbo].[Substances] (Name, Descr, CategoryID, HtmlName) VALUES ('" + nameSubAdd + "', '" + descrSubAdd + "', " + categoryIdSubAdd + ", '" + htmlNameSubAdd + "')";
-
+            string queryTablel = "INSERT INTO [dbo].[Substances] (Name, Descr, CategoryID, HtmlName) VALUES ('SubExample', 'DescrSubEx', 4, 'SubBlaBla')";
             SqlCommand command1 = new SqlCommand(queryTablel, sqlConnection);
             command1.ExecuteNonQuery();
         }
