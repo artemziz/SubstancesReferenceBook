@@ -21,15 +21,7 @@ export default class Values extends Component{
         }
     }
     render(){
-        const data = [
-            {x: 300, y: 500},
-            {x: 250, y: 280},
-            {x: 260, y: 430},
-            {x: 312, y: 923},
-            {x: 454, y: 168},
-            {x: 500, y: 723},
-            
-          ];
+        
         return(
             <section className="Values container">
                 <XYPlot height={600} width={800}>
@@ -38,7 +30,7 @@ export default class Values extends Component{
                 <XAxis />
                 <YAxis />
                 <LineSeries data={this.state.values} />
-                <LineSeries data={data} />
+                
                 </XYPlot>
                 <table className="highlight responsive-table">
                 <thead>

@@ -15,6 +15,9 @@ export default class SubList extends Component{
     addSub = () =>{
         this.props.addSub();
     }
+    deleteSub =(subId) =>{
+        this.props.deleteSub(subId);
+    }
     render(){
         return(
             <section className="col s3 SubList" >
@@ -24,7 +27,7 @@ export default class SubList extends Component{
            
                 {this.props.subs.map(sub=>{
                     
-                    return  <Sub id={sub.id} categoryID={sub.categoryID} descr={sub.descr} getProps={this.getProps} key={sub.id} name={sub.name}/>
+                    return  <Sub deleteSub={this.deleteSub} id={sub.id} categoryID={sub.categoryID} descr={sub.descr} getProps={this.getProps} key={sub.id} name={sub.name}/>
                 })}
             
             

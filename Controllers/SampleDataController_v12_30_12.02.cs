@@ -17,8 +17,8 @@ namespace SubstancesReferenceBook.Controllers
     public class SampleDataController : Controller
     {  
         SqlConnection sqlConnection;
-        public string Conn = "Data Source=MARIA;Initial Catalog=SubstancesReferenceBook;Integrated Security=True";
-        //public string Conn = "Data Source=DESKTOP-KK85Q69;Initial Catalog=SubstancesReferenceBook;Integrated Security=True";
+        //public string Conn = "Data Source=MARIA;Initial Catalog=SubstancesReferenceBook;Integrated Security=True";
+        public string Conn = "Data Source=DESKTOP-KK85Q69;Initial Catalog=SubstancesReferenceBook;Integrated Security=True";
         public SampleDataController()
         {
             //SqlConnection sqlConnection;
