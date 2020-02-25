@@ -48,21 +48,20 @@ export default class AddPanel extends Component{
         });
     }
     handleSubmit = (event) => {
-        fetch(`https://localhost:5001/AddSub`,{
-            method:"POST",
+        fetch(`https://localhost:5001/AddSub?
+        htmlNameSubAdd=${this.state.subName}
+        &categoryIdSubAdd=${+(this.state.subCategory)}
+        &nameSubAdd=${this.state.subName}
+        &descrSubAdd=${this.state.subDescr}`,{
+            method:"GET",
             headers: {
                 'Content-Type': 'application/json;charset=utf-8'
               },
-            body:{
-                "htmlNameSubAdd":this.state.subName,
-                "categoryIdSubAdd":+(this.state.subCategory),
-                "nameSubAdd":this.state.subName,
-                "descrSubAdd":this.state.subDescr
-            }
+            
         }).then(()=>{
             
             this.setState({
-                isHidden:false,
+                isHidden:true,
             })
         }).catch(err=>{
             console.log(err);           
