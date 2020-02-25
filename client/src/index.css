@@ -1,5 +1,5 @@
 @import '../node_modules/react-vis/dist/style.css';
-@import '../node_modules/materialize-css/dist/css/materialize.css';
+
 @import './components/App/App.css';
 @import './components/SubList/SubList.css';
 @import './components/Sub/Sub.css';
