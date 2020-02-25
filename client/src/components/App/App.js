@@ -23,14 +23,14 @@ class App extends Component{
       values:[],
       showInfoAndProps:false,
       showAddPanel:false,
+      addNewProp:false
 
       
 
 
     }
   }
-
-  componentDidMount(){
+  loadSubs =() =>{
     fetch('https://localhost:5001/substances')
     .then(data => {          
         
@@ -47,6 +47,20 @@ class App extends Component{
         console.log(err);  
 
     })
+  }
+  componentDidMount(){
+    this.loadSubs();
+}
+deleteSub = (subId) =>{
+  fetch(`https://localhost:5001/DelSubst?Id=${subId}`)
+  .then(()=>{
+    this.loadSubs();
+  })
+  
+  .catch(err=>{
+      console.log(err);
+      
+  })
 }
 
   getValues(propSubId){
@@ -201,6 +215,11 @@ class App extends Component{
       showAddPanel:!this.state.showAddPanel
     })
   }
+  addNewProp =() =>{
+    this.setState({
+      addNewProp:!this.state.addNewProp
+    })
+  }
   render(){
     
       return(  
@@ -208,11 +227,11 @@ class App extends Component{
         <div>
         
           <Header/>
-          <AddPanel show={this.state.showAddPanel}/>
+          <AddPanel reload={this.loadSubs} show={this.state.showAddPanel}/>
          
           <div className="row">
             <article className="container">
-                  <SubList addSub={this.addSub} subs={this.state.subs} getProps={this.getProps}/>
+                  <SubList deleteSub={this.deleteSub} addSub={this.addSub} subs={this.state.subs} getProps={this.getProps}/>
                   <PropsList getValues={this.getValues} subProps={this.state.subProps}/>
                   
             </article>

@@ -1,27 +1,25 @@
 import React,{Component} from 'react';
 
 
-export default class AddPanel extends Component{
+export default class AddNewProp extends Component{
     constructor(props){
         super(props);
         this.state = {
-            subName:'',
-            subDescr:'',
-            subCategory:-1,
-            categories:[],
-            isHidden:true
+            namePropAdd:'',
+            htmlName:'',
+            propUnitsPropAdd:'',
+            typePropAdd:-1,
+            subID:-1,
+            descrPropAdd:'',
+            isHidden:true,
+            types:[]
         }
+        //AddProp
+    }
+    componentDidMount(){
         
     }
-    async componentDidMount(){
-        let response = await fetch('https://localhost:5001/categories');
-        let data = await response.json();
-        this.setState({
-            categories:data,
-            subCategory:+(data[0].id)
-        })
-        
-    }
+    
     componentDidUpdate(prevProps){
         if(this.props.show!==prevProps.show){
             this.setState({
@@ -32,20 +30,30 @@ export default class AddPanel extends Component{
             
         }
     
-    handleChangeSubName = (event) => {
+    handleChangenamePropAdd = (event) => {
         this.setState({
-            subName:event.target.value
+            namePropAdd:event.target.value
         });
     }
-    handleChangeSubDescr = (event) => {
+    handleChangehtmlName = (event) => {
         this.setState({
-            subDescr:event.target.value
+            htmlName:event.target.value
         });
     }
-    handleChangeSubCategory = (event) => {
+    handleChangepropUnitsPropAdd = (event) => {
         this.setState({
-            subCategory:+(event.target.value)
+            propUnitsPropAdd:+(event.target.value)
         });
+    }
+    handleChangetypePropAdd = (event) =>{
+        this.setState({
+            typePropAdd:event.target.value
+        })
+    }
+    handleChangedescrPropAdd = (event) =>{
+        this.setState({
+            descrPropAdd:event.target.value
+        })
     }
     handleSubmit = (event) => {
         fetch(`https://localhost:5001/AddSub?
@@ -62,12 +70,6 @@ export default class AddPanel extends Component{
             
             this.setState({
                 isHidden:true,
-                subName:'',
-                subDescr:'',
-                
-                isHidden:true
-            },()=>{
-                this.props.reload();
             })
         }).catch(err=>{
             console.log(err);           
