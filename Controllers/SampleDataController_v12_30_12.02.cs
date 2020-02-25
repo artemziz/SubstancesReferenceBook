@@ -550,7 +550,7 @@ namespace SubstancesReferenceBook.Controllers
             command.ExecuteNonQuery();
         }
         [HttpGet("UpdArray")]
-        public void AddValueArray(int probSubID, int stateVarID, float value, float valueStateVar, DateTime dateTime)
+        public void UpdValueArray(int probSubID, int stateVarID, float value, float valueStateVar, DateTime dateTime)
         {
 
             string queryTabel = "UPDATE [dbo].[Array1DPropValues] (ProbSubID, StateVarID, StateVar, Value, VersionDate) " +
@@ -559,7 +559,7 @@ namespace SubstancesReferenceBook.Controllers
             command.ExecuteNonQuery();
         }
         [HttpGet("UpdAssoc")]
-        public void AddValueAssoc(int probSubID, string key, float value, DateTime dateTime)
+        public void UpdValueAssoc(int probSubID, string key, float value, DateTime dateTime)
         {
             string queryTabel = "UPDATE [dbo].[AssocPropValues] (PropSubID, [Key], Value, VersionDatte) " +
                                 "VALUES(" + probSubID + ", '" + key + ", " + value + ", " + dateTime + ")";
@@ -567,7 +567,7 @@ namespace SubstancesReferenceBook.Controllers
             command.ExecuteNonQuery();
         }
         [HttpGet("UpdScalar")]
-        public void AddValueScalar(int probSubID, float value, DateTime dateTime)
+        public void UpdValueScalar(int probSubID, float value, DateTime dateTime)
         {
             string queryTabel = "UPDATE [dbo].[ScalarPropValues] (PropSubID, Value, VersionDate) " +
                                 "VALUES(" + probSubID + ", " + value + ", " + dateTime + ")";
@@ -590,8 +590,8 @@ namespace SubstancesReferenceBook.Controllers
             command1.ExecuteNonQuery();
             return listOfOneSub(subID);
         }
-        [HttpPost("AddSub")]
-        public void AddSub([FromBody] string htmlNameSubAdd, int categoryIdSubAdd, string nameSubAdd, string descrSubAdd = "")
+        [HttpGet("AddSub")]
+        public void AddSub(string htmlNameSubAdd, int categoryIdSubAdd, string nameSubAdd, string descrSubAdd = "")
         {
             
             string queryTablel = "INSERT INTO [dbo].[Substances] (Name, Descr, CategoryID, HtmlName) VALUES ('" + nameSubAdd + "', '" + descrSubAdd + "', " + Int32.Parse(categoryIdSubAdd.ToString()) + ", '" + htmlNameSubAdd + "')";
