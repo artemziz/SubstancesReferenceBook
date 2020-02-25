@@ -17,8 +17,8 @@ namespace SubstancesReferenceBook.Controllers
     public class SampleDataController : Controller
     {  
         SqlConnection sqlConnection;
-        //public string Conn = "Data Source=MARIA;Initial Catalog=SubstancesReferenceBook;Integrated Security=True";
-        public string Conn = "Data Source=DESKTOP-KK85Q69;Initial Catalog=SubstancesReferenceBook;Integrated Security=True";
+        public string Conn = "Data Source=MARIA;Initial Catalog=SubstancesReferenceBook;Integrated Security=True";
+        //public string Conn = "Data Source=DESKTOP-KK85Q69;Initial Catalog=SubstancesReferenceBook;Integrated Security=True";
         public SampleDataController()
         {
             //SqlConnection sqlConnection;
@@ -525,18 +525,57 @@ namespace SubstancesReferenceBook.Controllers
             SqlCommand command1 = new SqlCommand(queryTable, sqlConnection);
             command1.ExecuteNonQuery();
         }
-        [HttpGet()]
-        public void UpdSource()
+        [HttpGet("UpdSource")]
+        public void UpdSource(int typeS, string source)
         {
-            
+            string queryTabel = "";
+            switch (typeS)
+            {
+                case 1:
+                    queryTabel = "UPDATE [dbo].[MeasureSources] SET Conditions = '" + source + "')";
+                    break;
+                case 2:
+                    queryTabel = "UPDATE [dbo].[WebSources] SET [URL] = '" + source + "'";
+                    break;
+                case 3:
+                    queryTabel = "UPDATE [dbo].[RefSources] SET Reference = '" + source + "')";
+                    break;
+                case 4:
+                    queryTabel = "UPDATE [dbo].[CalcSources] SET VariantID = '" + Int32.Parse(source) + "')";
+                    break;
+            }
+            //source = "The best Ref";
+            //queryTabel = "INSERT INTO[dbo].[RefSources] (Reference) VALUES('" + source + "')";
+            SqlCommand command = new SqlCommand(queryTabel, sqlConnection);
+            command.ExecuteNonQuery();
         }
-        [HttpGet()]
-        public void UpdValue()
+        [HttpGet("UpdArray")]
+        public void AddValueArray(int probSubID, int stateVarID, float value, float valueStateVar, DateTime dateTime)
         {
-            
+
+            string queryTabel = "UPDATE [dbo].[Array1DPropValues] (ProbSubID, StateVarID, StateVar, Value, VersionDate) " +
+                                "VALUES(" + probSubID + ", " + stateVarID + ", " + value + ", " + valueStateVar + ", " + dateTime + ")";
+            SqlCommand command = new SqlCommand(queryTabel, sqlConnection);
+            command.ExecuteNonQuery();
+        }
+        [HttpGet("UpdAssoc")]
+        public void AddValueAssoc(int probSubID, string key, float value, DateTime dateTime)
+        {
+            string queryTabel = "UPDATE [dbo].[AssocPropValues] (PropSubID, [Key], Value, VersionDatte) " +
+                                "VALUES(" + probSubID + ", '" + key + ", " + value + ", " + dateTime + ")";
+            SqlCommand command = new SqlCommand(queryTabel, sqlConnection);
+            command.ExecuteNonQuery();
+        }
+        [HttpGet("UpdScalar")]
+        public void AddValueScalar(int probSubID, float value, DateTime dateTime)
+        {
+            string queryTabel = "UPDATE [dbo].[ScalarPropValues] (PropSubID, Value, VersionDate) " +
+                                "VALUES(" + probSubID + ", " + value + ", " + dateTime + ")";
+            SqlCommand command = new SqlCommand(queryTabel, sqlConnection);
+            command.ExecuteNonQuery();
         }
 
-    //DOBAVLENIE ZAPISI
+        //DOBAVLENIE ZAPISI
         [HttpGet("AddProp")]
         public List<PropSubstLinks> AddProp(string namePropAdd, string htmlName, string propUnitsPropAdd, int typePropAdd, int subID, string descrPropAdd = "")
         {
@@ -556,9 +595,10 @@ namespace SubstancesReferenceBook.Controllers
         {
             
             string queryTablel = "INSERT INTO [dbo].[Substances] (Name, Descr, CategoryID, HtmlName) VALUES ('" + nameSubAdd + "', '" + descrSubAdd + "', " + Int32.Parse(categoryIdSubAdd.ToString()) + ", '" + htmlNameSubAdd + "')";
-
+            //queryTablel = "INSERT INTO [dbo].[Substances] (Name, Descr, CategoryID, HtmlName) VALUES ('SubExample', 'DescrSubEx', 4, 'SubBlaBla')";
             SqlCommand command1 = new SqlCommand(queryTablel, sqlConnection);
             command1.ExecuteNonQuery();
+           
         }
         [HttpGet("AddSource")]
         public void AddSource(int typeS, string source)
@@ -587,23 +627,27 @@ namespace SubstancesReferenceBook.Controllers
         }
         
         [HttpGet("AddArray")]
-        public void AddValueArray()
+        public void AddValueArray(int probSubID, int stateVarID, float value, float valueStateVar, DateTime dateTime)
         {
-            string queryTabel = "INSERT INTO [dbo].[] () VALUES()";
+            
+            string queryTabel = "INSERT INTO [dbo].[Array1DPropValues] (ProbSubID, StateVarID, StateVar, Value, VersionDate) " +
+                                "VALUES("+ probSubID +", "+ stateVarID + ", " + value + ", " + valueStateVar + ", " + dateTime +")";
             SqlCommand command = new SqlCommand(queryTabel, sqlConnection);
             command.ExecuteNonQuery();
         }
         [HttpGet("AddAssoc")]
-        public void AddValueAssoc()
+        public void AddValueAssoc(int probSubID, string key, float value, DateTime dateTime)
         {
-            string queryTabel = "INSERT INTO [dbo].[] () VALUES()";
+            string queryTabel = "INSERT INTO [dbo].[AssocPropValues] (PropSubID, [Key], Value, VersionDatte) " +
+                                "VALUES(" + probSubID + ", '" + key + ", " + value + ", " + dateTime + ")";
             SqlCommand command = new SqlCommand(queryTabel, sqlConnection);
             command.ExecuteNonQuery();
         }
         [HttpGet("AddScalar")]
-        public void AddValueScalar()
+        public void AddValueScalar(int probSubID, float value, DateTime dateTime)
         {
-            string queryTabel = "INSERT INTO [dbo].[] () VALUES()";
+            string queryTabel = "INSERT INTO [dbo].[ScalarPropValues] (PropSubID, Value, VersionDate) " +
+                                "VALUES(" + probSubID + ", " + value + ", " + dateTime + ")";
             SqlCommand command = new SqlCommand(queryTabel, sqlConnection);
             command.ExecuteNonQuery();
         }
@@ -643,7 +687,7 @@ namespace SubstancesReferenceBook.Controllers
             //sqlConnection = new SqlConnection(ArtemConnection);
             sqlConnection2.Open();
 
-            string queryTable = "SELECT * FROM " + " [dbo].[Properties]";
+            string queryTable = "SELECT * FROM " + " [dbo].[Properties] WHERE ID = " + propId;
             SqlCommand command = new SqlCommand(queryTable, sqlConnection2);
             SqlDataReader reader = command.ExecuteReader();
             reader.Read();
