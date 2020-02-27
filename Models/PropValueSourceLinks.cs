@@ -11,5 +11,6 @@ namespace SubstancesReferenceBook.Controllers
         public int PropValueId;
         public int SourceTypeId;
         public int SourceId;
+        public int ValueType;
     }
 }

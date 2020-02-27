@@ -16,15 +16,15 @@ namespace SubstancesReferenceBook.Controllers
     //[Route("[controller]")]
     public class SampleDataController : Controller
     {  
-        SqlConnection sqlConnection;
-        //public string Conn = "Data Source=MARIA;Initial Catalog=SubstancesReferenceBook;Integrated Security=True";
-        public string Conn = "Data Source=DESKTOP-KK85Q69;Initial Catalog=SubstancesReferenceBook;Integrated Security=True";
+        SqlConnection sqlConnectionMeasureSourceLinks;
+        public string Conn = "Data Source=MARIA;Initial Catalog=SubstancesReferenceBook;Integrated Security=True";
+        //public string Conn = "Data Source=DESKTOP-KK85Q69;Initial Catalog=SubstancesReferenceBook;Integrated Security=True";
         public SampleDataController()
         {
             //SqlConnection sqlConnection;
-            sqlConnection = new SqlConnection(Conn);
+            sqlConnectionMeasureSourceLinks = new SqlConnection(Conn);
             //sqlConnection = new SqlConnection(ArtemConnection);
-            sqlConnection.Open();
+            sqlConnectionMeasureSourceLinks.Open();
         }
 
 
@@ -35,7 +35,7 @@ namespace SubstancesReferenceBook.Controllers
         public List<Sub> listOfSubstances()
         { 
             string queryTable = "SELECT * FROM " + " [dbo].[Substances]";
-            SqlCommand command = new SqlCommand(queryTable, sqlConnection);
+            SqlCommand command = new SqlCommand(queryTable, sqlConnectionMeasureSourceLinks);
             SqlDataReader reader = command.ExecuteReader();
             List<Sub> data = new List<Sub>();
 
@@ -61,7 +61,7 @@ namespace SubstancesReferenceBook.Controllers
         public List<Category> listOfCategories()
         {
             string queryTable = "SELECT * FROM " + " [dbo].[SubstCategories]";
-            SqlCommand command = new SqlCommand(queryTable, sqlConnection);
+            SqlCommand command = new SqlCommand(queryTable, sqlConnectionMeasureSourceLinks);
             SqlDataReader reader = command.ExecuteReader();
 
             List<Category> data = new List<Category>();
@@ -87,7 +87,7 @@ namespace SubstancesReferenceBook.Controllers
         public List<SourceType> LlistOfSourceTypes()
         {
             string queryTable = "SELECT * FROM " + " [dbo].[SourceType]";
-            SqlCommand command = new SqlCommand(queryTable, sqlConnection);
+            SqlCommand command = new SqlCommand(queryTable, sqlConnectionMeasureSourceLinks);
             SqlDataReader reader = command.ExecuteReader();
             List<SourceType> data = new List<SourceType>();
 
@@ -128,7 +128,7 @@ namespace SubstancesReferenceBook.Controllers
         public List<RefSources> lisOfAllRefSource()
         {
             string queryTable = "SELECT * FROM " + " [dbo].[RefSources] ";
-            SqlCommand command = new SqlCommand(queryTable, sqlConnection);
+            SqlCommand command = new SqlCommand(queryTable, sqlConnectionMeasureSourceLinks);
             SqlDataReader reader = command.ExecuteReader();
             List<RefSources> data = new List<RefSources>();
 
@@ -148,7 +148,7 @@ namespace SubstancesReferenceBook.Controllers
         public List<WebSources> lisOfAllWebSource()
         {
             string queryTable = "SELECT * FROM " + " [dbo].[WebSources]";
-            SqlCommand command = new SqlCommand(queryTable, sqlConnection);
+            SqlCommand command = new SqlCommand(queryTable, sqlConnectionMeasureSourceLinks);
             SqlDataReader reader = command.ExecuteReader();
             List<WebSources> data = new List<WebSources>();
 
@@ -168,7 +168,7 @@ namespace SubstancesReferenceBook.Controllers
         public List<MeasureSources> lisOfaLLMeasureSource()
         {
             string queryTable = "SELECT * FROM " + " [dbo].[MeasureSources]";
-            SqlCommand command = new SqlCommand(queryTable, sqlConnection);
+            SqlCommand command = new SqlCommand(queryTable, sqlConnectionMeasureSourceLinks);
             SqlDataReader reader = command.ExecuteReader();
             List<MeasureSources> data = new List<MeasureSources>();
 
@@ -188,7 +188,7 @@ namespace SubstancesReferenceBook.Controllers
         public List<CalcSources> lisOfAllCalcSource()
         {
             string queryTable = "SELECT * FROM " + " [dbo].[CalcSources]";
-            SqlCommand command = new SqlCommand(queryTable, sqlConnection);
+            SqlCommand command = new SqlCommand(queryTable, sqlConnectionMeasureSourceLinks);
             SqlDataReader reader = command.ExecuteReader();
             List<CalcSources> data = new List<CalcSources>();
 
@@ -216,7 +216,7 @@ namespace SubstancesReferenceBook.Controllers
         {
             string queryTable = "SELECT Id, MinValue, MaxValue, DefaultValue, PropId FROM " 
                                 + " [dbo].[PropSubstLinks] WHERE SubstId = " + subId;
-            SqlCommand command = new SqlCommand(queryTable, sqlConnection);
+            SqlCommand command = new SqlCommand(queryTable, sqlConnectionMeasureSourceLinks);
             SqlDataReader reader = command.ExecuteReader();
             List<PropSubstLinks> data = new List<PropSubstLinks>();
 
@@ -249,7 +249,7 @@ namespace SubstancesReferenceBook.Controllers
         public List<Array1DPropValues> listOf1DArray(int propSubID)
         {
             string queryTable = "SELECT * FROM " + " [dbo].[Array1DPropValues] WHERE PropSubID = " + propSubID;
-            SqlCommand command = new SqlCommand(queryTable, sqlConnection);
+            SqlCommand command = new SqlCommand(queryTable, sqlConnectionMeasureSourceLinks);
             SqlDataReader reader = command.ExecuteReader();
             List<Array1DPropValues> data = new List<Array1DPropValues>();
 
@@ -275,7 +275,7 @@ namespace SubstancesReferenceBook.Controllers
         public List<ScalarPropValues> listOfScalar(int propSubID)
         {
             string queryTable = "SELECT * FROM " + " [dbo].[ScalarPropValues] WHERE PropSubID = " + propSubID;
-            SqlCommand command = new SqlCommand(queryTable, sqlConnection);
+            SqlCommand command = new SqlCommand(queryTable, sqlConnectionMeasureSourceLinks);
             SqlDataReader reader = command.ExecuteReader();
             List<ScalarPropValues> data = new List<ScalarPropValues>();
 
@@ -299,7 +299,7 @@ namespace SubstancesReferenceBook.Controllers
         public List<AssocPropValues> listOfAssoc(int propSubID)
         {
             string queryTable = "SELECT * FROM " + " [dbo].[AssocPropValues] WHERE PropSubID = " + propSubID;
-            SqlCommand command = new SqlCommand(queryTable, sqlConnection);
+            SqlCommand command = new SqlCommand(queryTable, sqlConnectionMeasureSourceLinks);
             SqlDataReader reader = command.ExecuteReader();
             List<AssocPropValues> data = new List<AssocPropValues>();
 
@@ -320,31 +320,59 @@ namespace SubstancesReferenceBook.Controllers
             return data;
         }
     
-
-        //Svayzy znacheniy i istochnikov
-        [HttpGet("SourceLinks")]
-        public List<PropValueSourceLinks> listOfSource(int propValueID, int type)
+    //Po ID Sv-va i MAt I id tipa value(assoc, array, scalar)
+        [HttpGet("SourcesOfValues")]
+        public List<string[]> sourcesList(int propValueID, int valueType)
         {
-            string queryTable = "SELECT * FROM " + " [dbo].[PropValueSourceLinks] WHERE PropValueID = " + propValueID + ", ValueType = " + type;
-            SqlCommand command = new SqlCommand(queryTable, sqlConnection);
-            SqlDataReader reader = command.ExecuteReader();
-            List<PropValueSourceLinks> data = new List<PropValueSourceLinks>();
+            propValueID = 2;
+            valueType = 1;
+            {//SqlConnection sqlConnection1 = new SqlConnection(Conn);
+            //sqlConnection1.Open();
+            //string queryTable = "SELECT * FROM " + " [dbo].[PropValueSourceLinks] WHERE PropValueID = " + propValueID + ", ValueType = " + valueType;
+            //SqlCommand command = new SqlCommand(queryTable, sqlConnection1);
+            //SqlDataReader reader1 = command.ExecuteReader();
+            //List<PropValueSourceLinks> dataSourceList = new List<PropValueSourceLinks>();
 
-            while (reader.Read())
-            {
-                data.Add(new PropValueSourceLinks()
-                {                    
-                    Id = Int32.Parse(reader[0].ToString()),
-                    PropValueId = propValueID,
-                    SourceTypeId = Int32.Parse(reader[2].ToString()),
-                    SourceId = Int32.Parse(reader[3].ToString()),
-                }
-                );
+            //while (reader1.Read())
+            //{
+            //    dataSourceList.Add(new PropValueSourceLinks()
+            //    {
+            //        Id = Int32.Parse(reader1[0].ToString()),
+            //        PropValueId = propValueID,
+            //        SourceTypeId = Int32.Parse(reader1[2].ToString()),
+            //        SourceId = Int32.Parse(reader1[3].ToString()),
+            //        ValueType = valueType
+            //    });
+            //}
+            //reader1.Close();
             }
+            
+            List<PropValueSourceLinks> dataSourceList = listOfSource(propValueID, valueType);
+            List<string[]> data = new List<string[]>();
 
-            reader.Close();
+            foreach (PropValueSourceLinks sourceInfo in dataSourceList)
+            {               
+                switch (sourceInfo.SourceTypeId)
+                {
+                    case 1:
+                        data.AddRange(RefSourceStr(sourceInfo.SourceId));
+                        break;
+                    case 2:
+                        data.AddRange(WebSourceStr(sourceInfo.SourceId));
+                        break;
+                    case 3:
+                        data.AddRange(CalcSourceStr(sourceInfo.SourceId));
+                        break;
+                    case 4:
+                        data.AddRange(MeasureSourceStr(sourceInfo.SourceId));
+                        break;
+                }                
+            }
+            //reader1.Close();
+            //sqlConnection1.Close();
             return data;
         }
+        
     
         
         //Zapros istochnika
@@ -352,7 +380,7 @@ namespace SubstancesReferenceBook.Controllers
         public List<RefSources> lisOfRefSource(int propValueID, int type)
         {
             string queryTable = "SELECT * FROM " + " [dbo].[RefSources]";
-            SqlCommand command = new SqlCommand(queryTable, sqlConnection);
+            SqlCommand command = new SqlCommand(queryTable, sqlConnectionMeasureSourceLinks);
             SqlDataReader reader = command.ExecuteReader();
             List<RefSources> data = new List<RefSources>();
 
@@ -372,7 +400,7 @@ namespace SubstancesReferenceBook.Controllers
         public List<WebSources> lisOfWebSource(int propValueID, int type)
         {
             string queryTable = "SELECT * FROM " + " [dbo].[WebSources]";
-            SqlCommand command = new SqlCommand(queryTable, sqlConnection);
+            SqlCommand command = new SqlCommand(queryTable, sqlConnectionMeasureSourceLinks);
             SqlDataReader reader = command.ExecuteReader();
             List<WebSources> data = new List<WebSources>();
 
@@ -392,7 +420,7 @@ namespace SubstancesReferenceBook.Controllers
         public List<MeasureSources> lisOfMeasureSource(int propValueID, int type)
         {
             string queryTable = "SELECT * FROM " + " [dbo].[MeasureSources]";
-            SqlCommand command = new SqlCommand(queryTable, sqlConnection);
+            SqlCommand command = new SqlCommand(queryTable, sqlConnectionMeasureSourceLinks);
             SqlDataReader reader = command.ExecuteReader();
             List<MeasureSources> data = new List<MeasureSources>();
 
@@ -412,7 +440,7 @@ namespace SubstancesReferenceBook.Controllers
         public List<CalcSources> lisOfCalcSource(int propValueID, int type)
         {
             string queryTable = "SELECT * FROM " + " [dbo].[CalcSources]";
-            SqlCommand command = new SqlCommand(queryTable, sqlConnection);
+            SqlCommand command = new SqlCommand(queryTable, sqlConnectionMeasureSourceLinks);
             SqlDataReader reader = command.ExecuteReader();
             List<CalcSources> data = new List<CalcSources>();
 
@@ -436,7 +464,7 @@ namespace SubstancesReferenceBook.Controllers
         public List<PropSubstLinks> Delete(int Id, int subID)
         {    
             string queryTable = "DELETE [dbo].[Properties] WHERE ID =" + Id;
-            SqlCommand command = new SqlCommand(queryTable, sqlConnection);
+            SqlCommand command = new SqlCommand(queryTable, sqlConnectionMeasureSourceLinks);
             command.ExecuteNonQuery();
             return listOfOneSub(subID);
         }
@@ -445,7 +473,7 @@ namespace SubstancesReferenceBook.Controllers
         {
             //int Id = 3;
             string queryTable = "DELETE [dbo].[Substances] WHERE ID =" + Id;
-            SqlCommand command = new SqlCommand(queryTable, sqlConnection);
+            SqlCommand command = new SqlCommand(queryTable, sqlConnectionMeasureSourceLinks);
             command.ExecuteNonQuery();
             return listOfSubstances();
         }
@@ -499,7 +527,7 @@ namespace SubstancesReferenceBook.Controllers
             if (tableName != "")
             {
                 string queryTable = "DELETE " + tableName + " WHERE ID =" + valueId;
-                SqlCommand command = new SqlCommand(queryTable, sqlConnection);
+                SqlCommand command = new SqlCommand(queryTable, sqlConnectionMeasureSourceLinks);
                 command.ExecuteNonQuery();
                 return "�������� ������ �������"; //Znachenie uspesho udaleno
             }
@@ -513,7 +541,7 @@ namespace SubstancesReferenceBook.Controllers
         {
             string queryTable = "UPDATE [dbo].[Properties] SET Name = '" + nameUpd + "', Descr = '" + descrUpd + "', PropUnits = '" + propUnitsUpd + "', ValueType = " + typeUpd + " WHERE ID =" + Id;
 
-            SqlCommand command1 = new SqlCommand(queryTable, sqlConnection);
+            SqlCommand command1 = new SqlCommand(queryTable, sqlConnectionMeasureSourceLinks);
             command1.ExecuteNonQuery();
             return listOfOneSub(subID);
         }
@@ -522,7 +550,7 @@ namespace SubstancesReferenceBook.Controllers
         {
             string queryTable = "UPDATE [dbo].[Properties] SET Name = '" + nameUpd + "', Descr = '" + descrUpd + "', HtmlName = '" 
                 + htmlName + "', CategoryID = " + categoryId + " WHERE ID =" + Id;
-            SqlCommand command1 = new SqlCommand(queryTable, sqlConnection);
+            SqlCommand command1 = new SqlCommand(queryTable, sqlConnectionMeasureSourceLinks);
             command1.ExecuteNonQuery();
         }
         [HttpGet("UpdSource")]
@@ -546,7 +574,7 @@ namespace SubstancesReferenceBook.Controllers
             }
             //source = "The best Ref";
             //queryTabel = "INSERT INTO[dbo].[RefSources] (Reference) VALUES('" + source + "')";
-            SqlCommand command = new SqlCommand(queryTabel, sqlConnection);
+            SqlCommand command = new SqlCommand(queryTabel, sqlConnectionMeasureSourceLinks);
             command.ExecuteNonQuery();
         }
         [HttpGet("UpdArray")]
@@ -555,7 +583,7 @@ namespace SubstancesReferenceBook.Controllers
 
             string queryTabel = "UPDATE [dbo].[Array1DPropValues] (ProbSubID, StateVarID, StateVar, Value, VersionDate) " +
                                 "VALUES(" + probSubID + ", " + stateVarID + ", " + value + ", " + valueStateVar + ", " + dateTime + ")";
-            SqlCommand command = new SqlCommand(queryTabel, sqlConnection);
+            SqlCommand command = new SqlCommand(queryTabel, sqlConnectionMeasureSourceLinks);
             command.ExecuteNonQuery();
         }
         [HttpGet("UpdAssoc")]
@@ -563,7 +591,7 @@ namespace SubstancesReferenceBook.Controllers
         {
             string queryTabel = "UPDATE [dbo].[AssocPropValues] (PropSubID, [Key], Value, VersionDatte) " +
                                 "VALUES(" + probSubID + ", '" + key + ", " + value + ", " + dateTime + ")";
-            SqlCommand command = new SqlCommand(queryTabel, sqlConnection);
+            SqlCommand command = new SqlCommand(queryTabel, sqlConnectionMeasureSourceLinks);
             command.ExecuteNonQuery();
         }
         [HttpGet("UpdScalar")]
@@ -571,7 +599,7 @@ namespace SubstancesReferenceBook.Controllers
         {
             string queryTabel = "UPDATE [dbo].[ScalarPropValues] (PropSubID, Value, VersionDate) " +
                                 "VALUES(" + probSubID + ", " + value + ", " + dateTime + ")";
-            SqlCommand command = new SqlCommand(queryTabel, sqlConnection);
+            SqlCommand command = new SqlCommand(queryTabel, sqlConnectionMeasureSourceLinks);
             command.ExecuteNonQuery();
         }
 
@@ -586,7 +614,7 @@ namespace SubstancesReferenceBook.Controllers
 
             string queryTablel = "INSERT INTO [dbo].[Properties] (Name, Descr, PropUnits, ValueType, HtmlName) VALUES ('" + namePropAdd + "', '" + descrPropAdd + "', '" + propUnitsPropAdd + "', " + typePropAdd + ", '" + htmlName + "')";
 
-            SqlCommand command1 = new SqlCommand(queryTablel, sqlConnection);
+            SqlCommand command1 = new SqlCommand(queryTablel, sqlConnectionMeasureSourceLinks);
             command1.ExecuteNonQuery();
             return listOfOneSub(subID);
         }
@@ -596,7 +624,7 @@ namespace SubstancesReferenceBook.Controllers
             
             string queryTablel = "INSERT INTO [dbo].[Substances] (Name, Descr, CategoryID, HtmlName) VALUES ('" + nameSubAdd + "', '" + descrSubAdd + "', " + Int32.Parse(categoryIdSubAdd.ToString()) + ", '" + htmlNameSubAdd + "')";
             //queryTablel = "INSERT INTO [dbo].[Substances] (Name, Descr, CategoryID, HtmlName) VALUES ('SubExample', 'DescrSubEx', 4, 'SubBlaBla')";
-            SqlCommand command1 = new SqlCommand(queryTablel, sqlConnection);
+            SqlCommand command1 = new SqlCommand(queryTablel, sqlConnectionMeasureSourceLinks);
             command1.ExecuteNonQuery();
            
         }
@@ -621,7 +649,7 @@ namespace SubstancesReferenceBook.Controllers
             }
             //source = "The best Ref";
             //queryTabel = "INSERT INTO[dbo].[RefSources] (Reference) VALUES('" + source + "')";
-            SqlCommand command = new SqlCommand(queryTabel, sqlConnection);
+            SqlCommand command = new SqlCommand(queryTabel, sqlConnectionMeasureSourceLinks);
             command.ExecuteNonQuery();
             //return queryTabel;
         }
@@ -632,7 +660,7 @@ namespace SubstancesReferenceBook.Controllers
             
             string queryTabel = "INSERT INTO [dbo].[Array1DPropValues] (ProbSubID, StateVarID, StateVar, Value, VersionDate) " +
                                 "VALUES("+ probSubID +", "+ stateVarID + ", " + value + ", " + valueStateVar + ", " + dateTime +")";
-            SqlCommand command = new SqlCommand(queryTabel, sqlConnection);
+            SqlCommand command = new SqlCommand(queryTabel, sqlConnectionMeasureSourceLinks);
             command.ExecuteNonQuery();
         }
         [HttpGet("AddAssoc")]
@@ -640,7 +668,7 @@ namespace SubstancesReferenceBook.Controllers
         {
             string queryTabel = "INSERT INTO [dbo].[AssocPropValues] (PropSubID, [Key], Value, VersionDatte) " +
                                 "VALUES(" + probSubID + ", '" + key + ", " + value + ", " + dateTime + ")";
-            SqlCommand command = new SqlCommand(queryTabel, sqlConnection);
+            SqlCommand command = new SqlCommand(queryTabel, sqlConnectionMeasureSourceLinks);
             command.ExecuteNonQuery();
         }
         [HttpGet("AddScalar")]
@@ -648,7 +676,7 @@ namespace SubstancesReferenceBook.Controllers
         {
             string queryTabel = "INSERT INTO [dbo].[ScalarPropValues] (PropSubID, Value, VersionDate) " +
                                 "VALUES(" + probSubID + ", " + value + ", " + dateTime + ")";
-            SqlCommand command = new SqlCommand(queryTabel, sqlConnection);
+            SqlCommand command = new SqlCommand(queryTabel, sqlConnectionMeasureSourceLinks);
             command.ExecuteNonQuery();
         }
 
@@ -731,29 +759,29 @@ namespace SubstancesReferenceBook.Controllers
         private void Source1(int IdSources)
         {
             string queryTable = "UPDATE [dbo].[RefSources] SET Deleted = 1 WHERE ID =" + IdSources;
-            SqlCommand command1 = new SqlCommand(queryTable, sqlConnection);
+            SqlCommand command1 = new SqlCommand(queryTable, sqlConnectionMeasureSourceLinks);
             command1.ExecuteNonQuery();
         }
         private void Source2(int IdSources)
         {
             string queryTable = "UPDATE [dbo].[WebSources] SET Deleted = 1 WHERE ID =" + IdSources;
-            SqlCommand command1 = new SqlCommand(queryTable, sqlConnection);
+            SqlCommand command1 = new SqlCommand(queryTable, sqlConnectionMeasureSourceLinks);
             command1.ExecuteNonQuery();
         }
         private void Source3(int IdSources)
         {
             string queryTable = "UPDATE [dbo].[MeazureSources] SET Deleted = 1 WHERE ID =" + IdSources;
-            SqlCommand command1 = new SqlCommand(queryTable, sqlConnection);
+            SqlCommand command1 = new SqlCommand(queryTable, sqlConnectionMeasureSourceLinks);
             command1.ExecuteNonQuery();
         }
         private void Source4(int IdSources)
         {
             string queryTable = "UPDATE [dbo].[CalcSources] SET Deleted = 1 WHERE ID =" + IdSources;
-            SqlCommand command1 = new SqlCommand(queryTable, sqlConnection);
+            SqlCommand command1 = new SqlCommand(queryTable, sqlConnectionMeasureSourceLinks);
             command1.ExecuteNonQuery();
         }
         //Soursec dlya obsego spiska
-        private List<string[]> RefSourceStr()
+        private List<string[]> RefSourceStr(int sourceId = 0)
         {
             SqlConnection sqlConnectionRefSourceStr;
             sqlConnectionRefSourceStr = new SqlConnection(Conn);
@@ -762,6 +790,7 @@ namespace SubstancesReferenceBook.Controllers
             List<string[]> data = new List<string[]>();
             /*REF*/
             string queryTable = "SELECT * FROM " + " [dbo].[RefSources]";
+            if (sourceId != 0) queryTable += "WHERE ID = " + sourceId;
             SqlCommand command = new SqlCommand(queryTable, sqlConnectionRefSourceStr);
             SqlDataReader reader = command.ExecuteReader();
             while (reader.Read())
@@ -775,7 +804,7 @@ namespace SubstancesReferenceBook.Controllers
             sqlConnectionRefSourceStr.Close();
             return data;
         }
-        private List<string[]> CalcSourceStr()
+        private List<string[]> CalcSourceStr(int sourceId = 0)
         {
             SqlConnection sqlConnectionCalcSourceStr;
             sqlConnectionCalcSourceStr = new SqlConnection(Conn);
@@ -784,6 +813,7 @@ namespace SubstancesReferenceBook.Controllers
             List<string[]> data = new List<string[]>();
             /*Calc*/
             string queryTable = "SELECT * FROM " + " [dbo].[CalcSources]";
+            if (sourceId != 0) queryTable += "WHERE ID = " + sourceId;
             SqlCommand command = new SqlCommand(queryTable, sqlConnectionCalcSourceStr);
             SqlDataReader reader = command.ExecuteReader();
             while (reader.Read())
@@ -797,7 +827,7 @@ namespace SubstancesReferenceBook.Controllers
             sqlConnectionCalcSourceStr.Close();
             return data;
         }
-        private List<string[]> WebSourceStr()
+        private List<string[]> WebSourceStr(int sourceId = 0)
         {
             SqlConnection sqlConnectionWebSourceStr;
             sqlConnectionWebSourceStr = new SqlConnection(Conn);
@@ -806,6 +836,7 @@ namespace SubstancesReferenceBook.Controllers
             List<string[]> data = new List<string[]>();
             /*Web*/
             string queryTable = "SELECT * FROM " + " [dbo].[WebSources]";
+            if (sourceId != 0) queryTable += "WHERE ID = " + sourceId;
             SqlCommand command = new SqlCommand(queryTable, sqlConnectionWebSourceStr);
             SqlDataReader reader = command.ExecuteReader();
             while (reader.Read())
@@ -819,7 +850,7 @@ namespace SubstancesReferenceBook.Controllers
             sqlConnectionWebSourceStr.Close();
             return data;
         }
-        private List<string[]> MeasureSourceStr()
+        private List<string[]> MeasureSourceStr(int sourceId = 0)
         {
             SqlConnection sqlConnectionMeasureSourceStr;
             sqlConnectionMeasureSourceStr = new SqlConnection(Conn);
@@ -829,6 +860,7 @@ namespace SubstancesReferenceBook.Controllers
             List<string[]> data = new List<string[]>();
             /*Measure*/
             string queryTable = "SELECT * FROM " + " [dbo].[MeasureSources]";
+            if (sourceId != 0) queryTable += "WHERE ID = " + sourceId;
             SqlCommand command = new SqlCommand(queryTable, sqlConnectionMeasureSourceStr);
             SqlDataReader reader = command.ExecuteReader();
             while (reader.Read())
@@ -843,14 +875,44 @@ namespace SubstancesReferenceBook.Controllers
             return data;
         }
 
+        //Svayzy znacheniy i istochnikov
+        private List<PropValueSourceLinks> listOfSource(int propValueID, int type)
+        {
+            SqlConnection sqlConnectionMeasureSourceLinks;
+            sqlConnectionMeasureSourceLinks = new SqlConnection(Conn);
+            //sqlConnection = new SqlConnection(ArtemConnection);
+            sqlConnectionMeasureSourceLinks.Open();
 
-/*
- * CHto eshche nuzhno
- * perepisat' vse zaprosy tak chtoby bylo minimum dejstvij u klienta, maksimum tut
- * napisat' apdejt del i dobavl dlya mater, kategorij, znachenij
- * izmenit' klassy soglasno izmenennoj bd (plyus tablica 'tipy dannyh - svyaz' s svojstva i , stolbec Udalen - istochniki, stolbec TipDannyh - tablica svyazi s istochnikami
- * 
- */
- 
+            string queryTable = "SELECT * FROM " + " [dbo].[PropValueSourceLinks] WHERE PropValueID = " + propValueID + "AND ValueType = " + type;
+            SqlCommand command = new SqlCommand(queryTable, sqlConnectionMeasureSourceLinks);
+            SqlDataReader reader = command.ExecuteReader();
+            List<PropValueSourceLinks> data = new List<PropValueSourceLinks>();
+
+            while (reader.Read())
+            {
+                data.Add(new PropValueSourceLinks()
+                {
+                    Id = Int32.Parse(reader[0].ToString()),
+                    PropValueId = propValueID,
+                    SourceTypeId = Int32.Parse(reader[2].ToString()),
+                    SourceId = Int32.Parse(reader[3].ToString()),
+                    ValueType = type
+                }
+                ); 
+            }
+
+            reader.Close();
+            return data;
+        }
+
+
+        /*
+         * CHto eshche nuzhno
+         * perepisat' vse zaprosy tak chtoby bylo minimum dejstvij u klienta, maksimum tut
+         * napisat' apdejt del i dobavl dlya mater, kategorij, znachenij
+         * izmenit' klassy soglasno izmenennoj bd (plyus tablica 'tipy dannyh - svyaz' s svojstva i , stolbec Udalen - istochniki, stolbec TipDannyh - tablica svyazi s istochnikami
+         * 
+         */
+
     }
 }
